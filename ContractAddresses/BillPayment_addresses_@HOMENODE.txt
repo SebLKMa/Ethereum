@@ -35,6 +35,9 @@ true
 }]
 > eth.blockNumber
 341
+
+For the other node to know about new pending transactions, its mining has to be started.
+Meaning it is competing the mining process with all know nodes.
 > miner.start(1)
 null
 > eth.blockNumber
