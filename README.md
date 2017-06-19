@@ -5,7 +5,9 @@ git clone https://github.com/SebLKMa/Ethereum.git
 cd Ethereum/Solidity
 
 git add *.sol
+
 git commit -m "your submission comments"
+
 git push -u origin master
 
 
