@@ -2,6 +2,9 @@ geth01 account 0x4799c873f6574b299854bfd831ae99ad2e664e30
 contract address 0xbdf315ad0499d6e2b89501b9c5dc240f5938c096 <-- created in Browser-Solidity
 contract address 0xc7caf784fae5840bdc893b03b7391fce6efb6190
 
+AWS machine
+contract 0xb99327e9b041fa32df80a43242e374f7b3299133
+
 > var abi = [{"constant":true,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getContractAmount","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getCustomerId","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"payment","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"contractAmount","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"completed","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"customerId","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"balance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getPayment","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_payment","type":"uint256"}],"name":"receivePayment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"isCompleted","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[{"name":"_customerId","type":"string"},{"name":"_contractAmount","type":"uint256"}],"payable":false,"type":"constructor"}]
 undefined
 > var addr = "0xc7caf784fae5840bdc893b03b7391fce6efb6190"
