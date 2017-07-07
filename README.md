@@ -1,7 +1,12 @@
-# To clone the repository
+# Ethereum Blockchain
+
+To clone the repository
+
 git clone https://github.com/SebLKMa/Ethereum.git
 
-# To submit changes to sol files
+
+To submit changes to sol files
+
 cd Ethereum/Solidity
 
 git add *.sol
