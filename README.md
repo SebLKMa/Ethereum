@@ -15,4 +15,6 @@ git commit -m "your submission comments"
 
 git push -u origin master
 
+# Wiki
+I also just transfered the first part of my Word doc to the Wiki tab here.
 
