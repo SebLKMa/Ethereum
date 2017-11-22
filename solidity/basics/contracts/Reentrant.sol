@@ -1,5 +1,8 @@
 pragma solidity ^0.4.18;
 
+/// This contract is owned by a naive person whose intention is
+/// register amounts deposited by addresses.
+/// Note that Ethers deposited are stored in this contract's balance. 
 contract Reentrant {
     mapping (address => uint) public balances;
     
