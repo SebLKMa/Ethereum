@@ -1,0 +1,320 @@
+{
+  "contractName": "DummyFallBack",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getDummyValue",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "fallback"
+    }
+  ],
+  "bytecode": "0x6060604052341561000f57600080fd5b60ae8061001d6000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630a0e465d146053575b3415604957600080fd5b6001600081905550005b3415605d57600080fd5b60636079565b6040518082815260200191505060405180910390f35b600080549050905600a165627a7a72305820ca9b2b246f294e24c53da6b4a38c4ff7f2943ff61b540aada9ca22409b4868420029",
+  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630a0e465d146053575b3415604957600080fd5b6001600081905550005b3415605d57600080fd5b60636079565b6040518082815260200191505060405180910390f35b600080549050905600a165627a7a72305820ca9b2b246f294e24c53da6b4a38c4ff7f2943ff61b540aada9ca22409b4868420029",
+  "sourceMap": "28:471:1:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "28:471:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;391:1;378:10;:14;;;;28:471;408:88;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;454:4;478:10;;471:17;;408:88;:::o",
+  "source": "pragma solidity ^0.4.17;\r\n\r\ncontract DummyFallBack {\r\n    uint dummyValue;\r\n\r\n    /**\r\n        This function is called for all messages sent to this contract\r\n        (when there is no other function).\r\n        Sending Ether to this contract will cause an exception because\r\n        this fallback function does not have a \"payable\" modifier.\r\n     */\r\n    function() {\r\n        dummyValue = 1;\r\n    }\r\n\r\n    function getDummyValue() public view returns (uint) {\r\n        return dummyValue;\r\n    }\r\n}",
+  "sourcePath": "C:\\dev\\ethereum\\solidity\\basics\\contracts\\DummyFallBack.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/dev/ethereum/solidity/basics/contracts/DummyFallBack.sol",
+      "exportedSymbols": {
+        "DummyFallBack": [
+          49
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".17"
+          ]
+        },
+        "id": 30,
+        "name": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            49
+          ],
+          "name": "DummyFallBack",
+          "scope": 50
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "dummyValue",
+              "scope": 49,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint",
+                  "type": "uint256"
+                },
+                "id": 31,
+                "name": "ElementaryTypeName",
+                "src": "58:4:1"
+              }
+            ],
+            "id": 32,
+            "name": "VariableDeclaration",
+            "src": "58:15:1"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "",
+              "payable": false,
+              "scope": 49,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 33,
+                "name": "ParameterList",
+                "src": "364:2:1"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 34,
+                "name": "ParameterList",
+                "src": "367:0:1"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 32,
+                              "type": "uint256",
+                              "value": "dummyValue"
+                            },
+                            "id": 35,
+                            "name": "Identifier",
+                            "src": "378:10:1"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "31",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "number",
+                              "type": "int_const 1",
+                              "value": "1"
+                            },
+                            "id": 36,
+                            "name": "Literal",
+                            "src": "391:1:1"
+                          }
+                        ],
+                        "id": 37,
+                        "name": "Assignment",
+                        "src": "378:14:1"
+                      }
+                    ],
+                    "id": 38,
+                    "name": "ExpressionStatement",
+                    "src": "378:14:1"
+                  }
+                ],
+                "id": 39,
+                "name": "Block",
+                "src": "367:33:1"
+              }
+            ],
+            "id": 40,
+            "name": "FunctionDefinition",
+            "src": "356:44:1"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getDummyValue",
+              "payable": false,
+              "scope": 49,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 41,
+                "name": "ParameterList",
+                "src": "430:2:1"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 48,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 42,
+                        "name": "ElementaryTypeName",
+                        "src": "454:4:1"
+                      }
+                    ],
+                    "id": 43,
+                    "name": "VariableDeclaration",
+                    "src": "454:4:1"
+                  }
+                ],
+                "id": 44,
+                "name": "ParameterList",
+                "src": "453:6:1"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 44
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "overloadedDeclarations": [
+                            null
+                          ],
+                          "referencedDeclaration": 32,
+                          "type": "uint256",
+                          "value": "dummyValue"
+                        },
+                        "id": 45,
+                        "name": "Identifier",
+                        "src": "478:10:1"
+                      }
+                    ],
+                    "id": 46,
+                    "name": "Return",
+                    "src": "471:17:1"
+                  }
+                ],
+                "id": 47,
+                "name": "Block",
+                "src": "460:36:1"
+              }
+            ],
+            "id": 48,
+            "name": "FunctionDefinition",
+            "src": "408:88:1"
+          }
+        ],
+        "id": 49,
+        "name": "ContractDefinition",
+        "src": "28:471:1"
+      }
+    ],
+    "id": 50,
+    "name": "SourceUnit",
+    "src": "0:499:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {
+    "4447": {
+      "events": {},
+      "links": {},
+      "address": "0x345ca3e014aaf5dca488057592ee47305d9b3e10"
+    }
+  },
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-22T03:51:08.140Z"
+}

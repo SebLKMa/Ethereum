@@ -1,0 +1,1 @@
+[{"constant":true,"inputs":[],"name":"getDummyValue","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"payable":false,"stateMutability":"nonpayable","type":"fallback"}]

@@ -1,0 +1,451 @@
+{
+  "contractName": "Caller",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_state",
+          "type": "bool"
+        }
+      ],
+      "name": "setDummyState",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_dummy",
+          "type": "address"
+        }
+      ],
+      "name": "callDummyFallBack",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6060604052341561000f57600080fd5b6101728061001e6000396000f30060606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632dd5fe1114610051578063cffe74da14610076575b600080fd5b341561005c57600080fd5b610074600480803515159060200190919050506100af565b005b341561008157600080fd5b6100ad600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506100cb565b005b806000806101000a81548160ff02191690831515021790555050565b8073ffffffffffffffffffffffffffffffffffffffff1663abcded016040518163ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040160006040518083038160008761646e5a03f1925050506000806101000a81548160ff021916908315150217905550505600a165627a7a72305820bfda21cb69a6a9faa5acaa425f9852d12b425d11cce909ac4e8acc655acae5240029",
+  "deployedBytecode": "0x60606040526004361061004c576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632dd5fe1114610051578063cffe74da14610076575b600080fd5b341561005c57600080fd5b610074600480803515159060200190919050506100af565b005b341561008157600080fd5b6100ad600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919050506100cb565b005b806000806101000a81548160ff02191690831515021790555050565b8073ffffffffffffffffffffffffffffffffffffffff1663abcded016040518163ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040160006040518083038160008761646e5a03f1925050506000806101000a81548160ff021916908315150217905550505600a165627a7a72305820bfda21cb69a6a9faa5acaa425f9852d12b425d11cce909ac4e8acc655acae5240029",
+  "sourceMap": "59:596:0:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "59:596:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;106:81;;;;;;;;;;;;;;;;;;;;;;;;;;;;199:453;;;;;;;;;;;;;;;;;;;;;;;;;;;;106:81;173:6;160:10;;:19;;;;;;;;;;;;;;;;;;106:81;:::o;199:453::-;298:6;:11;;310:10;298:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;285:10;;:36;;;;;;;;;;;;;;;;;;199:453;:::o",
+  "source": "pragma solidity ^0.4.17;\r\nimport \"./DummyFallBack.sol\";\r\n\r\ncontract Caller {\r\n    bool dummyState;\r\n\r\n    function setDummyState(bool _state) public {\r\n        dummyState = _state;\r\n    }\r\n    \r\n    function callDummyFallBack(DummyFallBack _dummy) public /*returns (bool)*/ {\r\n        dummyState = _dummy.call(0xabcded01); // hash does not exist, just test the fallback\r\n        // should results in dummy.dummyValue == 1\r\n\r\n        // The following will not compile, as dummy's fallback is not payable.\r\n        // When someone sends ether to dummy, the txn will fail and ether is rejected.\r\n        //dummy.send(2);\r\n\r\n        //return result;\r\n    }\r\n}",
+  "sourcePath": "C:\\dev\\ethereum\\solidity\\basics\\contracts\\Caller.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/dev/ethereum/solidity/basics/contracts/Caller.sol",
+      "exportedSymbols": {
+        "Caller": [
+          28
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".17"
+          ]
+        },
+        "id": 1,
+        "name": "PragmaDirective",
+        "src": "0:24:0"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 50,
+          "absolutePath": "/C/dev/ethereum/solidity/basics/contracts/DummyFallBack.sol",
+          "file": "./DummyFallBack.sol",
+          "scope": 29,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 2,
+        "name": "ImportDirective",
+        "src": "26:29:0"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            28
+          ],
+          "name": "Caller",
+          "scope": 29
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "dummyState",
+              "scope": 28,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "bool",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "bool",
+                  "type": "bool"
+                },
+                "id": 3,
+                "name": "ElementaryTypeName",
+                "src": "82:4:0"
+              }
+            ],
+            "id": 4,
+            "name": "VariableDeclaration",
+            "src": "82:15:0"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "setDummyState",
+              "payable": false,
+              "scope": 28,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_state",
+                      "scope": 14,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 5,
+                        "name": "ElementaryTypeName",
+                        "src": "129:4:0"
+                      }
+                    ],
+                    "id": 6,
+                    "name": "VariableDeclaration",
+                    "src": "129:11:0"
+                  }
+                ],
+                "id": 7,
+                "name": "ParameterList",
+                "src": "128:13:0"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 8,
+                "name": "ParameterList",
+                "src": "149:0:0"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "bool"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 4,
+                              "type": "bool",
+                              "value": "dummyState"
+                            },
+                            "id": 9,
+                            "name": "Identifier",
+                            "src": "160:10:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 6,
+                              "type": "bool",
+                              "value": "_state"
+                            },
+                            "id": 10,
+                            "name": "Identifier",
+                            "src": "173:6:0"
+                          }
+                        ],
+                        "id": 11,
+                        "name": "Assignment",
+                        "src": "160:19:0"
+                      }
+                    ],
+                    "id": 12,
+                    "name": "ExpressionStatement",
+                    "src": "160:19:0"
+                  }
+                ],
+                "id": 13,
+                "name": "Block",
+                "src": "149:38:0"
+              }
+            ],
+            "id": 14,
+            "name": "FunctionDefinition",
+            "src": "106:81:0"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "callDummyFallBack",
+              "payable": false,
+              "scope": 28,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_dummy",
+                      "scope": 27,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "contract DummyFallBack",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "DummyFallBack",
+                          "referencedDeclaration": 49,
+                          "type": "contract DummyFallBack"
+                        },
+                        "id": 15,
+                        "name": "UserDefinedTypeName",
+                        "src": "226:13:0"
+                      }
+                    ],
+                    "id": 16,
+                    "name": "VariableDeclaration",
+                    "src": "226:20:0"
+                  }
+                ],
+                "id": 17,
+                "name": "ParameterList",
+                "src": "225:22:0"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 18,
+                "name": "ParameterList",
+                "src": "274:0:0"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "bool"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 4,
+                              "type": "bool",
+                              "value": "dummyState"
+                            },
+                            "id": 19,
+                            "name": "Identifier",
+                            "src": "285:10:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "isStructConstructorCall": false,
+                              "lValueRequested": false,
+                              "names": [
+                                null
+                              ],
+                              "type": "bool",
+                              "type_conversion": false
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_rational_2882399489_by_1",
+                                      "typeString": "int_const 2882399489"
+                                    }
+                                  ],
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "member_name": "call",
+                                  "referencedDeclaration": null,
+                                  "type": "function () payable returns (bool)"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 16,
+                                      "type": "contract DummyFallBack",
+                                      "value": "_dummy"
+                                    },
+                                    "id": 20,
+                                    "name": "Identifier",
+                                    "src": "298:6:0"
+                                  }
+                                ],
+                                "id": 21,
+                                "name": "MemberAccess",
+                                "src": "298:11:0"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "hexvalue": "30786162636465643031",
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": true,
+                                  "lValueRequested": false,
+                                  "subdenomination": null,
+                                  "token": "number",
+                                  "type": "int_const 2882399489",
+                                  "value": "0xabcded01"
+                                },
+                                "id": 22,
+                                "name": "Literal",
+                                "src": "310:10:0"
+                              }
+                            ],
+                            "id": 23,
+                            "name": "FunctionCall",
+                            "src": "298:23:0"
+                          }
+                        ],
+                        "id": 24,
+                        "name": "Assignment",
+                        "src": "285:36:0"
+                      }
+                    ],
+                    "id": 25,
+                    "name": "ExpressionStatement",
+                    "src": "285:36:0"
+                  }
+                ],
+                "id": 26,
+                "name": "Block",
+                "src": "274:378:0"
+              }
+            ],
+            "id": 27,
+            "name": "FunctionDefinition",
+            "src": "199:453:0"
+          }
+        ],
+        "id": 28,
+        "name": "ContractDefinition",
+        "src": "59:596:0"
+      }
+    ],
+    "id": 29,
+    "name": "SourceUnit",
+    "src": "0:655:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {
+    "4447": {
+      "events": {},
+      "links": {},
+      "address": "0xf25186b5081ff5ce73482ad761db0eb0d25abfbf"
+    }
+  },
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-22T03:51:08.141Z"
+}

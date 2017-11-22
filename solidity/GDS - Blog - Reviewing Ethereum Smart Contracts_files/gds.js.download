@@ -1,0 +1,29 @@
+function mainNav(mainNavID,subNavID,height)
+{var mainNavID=$(mainNavID);var subNavID=$(subNavID);var height=height+'px';var mainnavtimerOver=null;var mainnavtimerOut=null;var subnavtimer=null;var current='';var subnavIson=false;var blindup=null;var blinddown=null;this.init=init;this.hidesubnav=hidesubnav;this.showsubnav=showsubnav;this.subnavRover=subnavRover;this.subnavRout=subnavRout;function init()
+{mainNavID.onmouseover=function(e)
+{if(!e)var e=window.event;clearTimeout(subnavtimer);mainnavtimerOver=setTimeout(function(){showsubnav();},200);}
+if(mainNavID.captureEvents)mainNavID.captureEvents(Event.ONMOUSEOVER);mainNavID.onmouseout=function(e)
+{if(!e)var e=window.event;clearTimeout(mainnavtimerOver);mainnavtimerOut=setTimeout(function(){hidesubnav();},200);}
+if(mainNavID.captureEvents)mainNavID.captureEvents(Event.ONMOUSEOUT);mainNavID.onmouseover=function(e)
+{if(!e)var e=window.event;clearTimeout(subnavtimer);mainnavtimerOver=setTimeout(function(){showsubnav();},200);}
+if(mainNavID.captureEvents)mainNavID.captureEvents(Event.ONMOUSEOVER);subNavID.onmouseover=function(e)
+{if(!e)var e=window.event;mainNavID.style.backgroundColor='#223A63';mainNavID.style.color='#FFFFFF';clearTimeout(mainnavtimerOut);clearTimeout(subnavtimer);}
+if(subNavID.captureEvents)subNavID.captureEvents(Event.ONMOUSEOVER);subNavID.onmouseout=function(e)
+{if(!e)var e=window.event;mainNavID.style.backgroundColor='';mainNavID.style.color='';subnavtimer=setTimeout(function(){hidesubnav();},200);}
+if(subNavID.captureEvents)subNavID.captureEvents(Event.ONMOUSEOUT);hidesubnav();}
+function subnavRover()
+{subnavIson=false;}
+function subnavRout()
+{subnavIson=true;}
+function hidesubnav()
+{subNavID.style.zIndex='1';new Effect.BlindUp(subNavID,{duration:0.2,afterFinish:function()
+{subNavID.style.height=height;}});}
+function showsubnav()
+{if(!subnavIson)
+{subNavID.style.visibility='visible';subNavID.style.zIndex='100';new Effect.BlindDown(subNavID,{duration:0.2,afterFinish:function()
+{}});}}}
+function initNav()
+{var mainNavDiv=$('mainNav');var aNavs=mainNavDiv.getElementsByTagName('a');var navObjects=new Array();for(i=0;i<aNavs.length;i++)
+{var navID=aNavs[i].id;var subnavID=aNavs[i].id+'_submenu';var addnewnav=new mainNav(navID,subnavID,200);navObjects.push(addnewnav);}
+for(i=0;i<navObjects.length;i++)
+{navObjects[i].init();}}
