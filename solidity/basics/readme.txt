@@ -68,6 +68,8 @@ truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db4
 '0' !!
 
 Points to ponder:
+https://ethereum.stackexchange.com/questions/6707/whats-the-difference-between-call-value-and-call-value
+http://www.blunderingcode.com/writing-secure-solidity/
 https://ethereum.stackexchange.com/questions/7069/whats-the-point-of-sending-a-value-in-a-contract-deployment-transaction
 https://ethereum.stackexchange.com/questions/26838/how-to-get-the-creator-of-a-contract-was-the-owner
 https://ethereum.stackexchange.com/questions/11484/how-can-contract-ownership-be-transferred-from-one-account-to-another
