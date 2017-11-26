@@ -18,6 +18,15 @@ git push -u origin master
 # Wiki
 I also just transfered the first part of my Word doc to the Wiki tab here.
 
+# Getting latest to empty local directory
+C:\dev\ethereum>git init
+
+C:\dev\ethereum>git remote add origin https://github.com/SebLKMa/Ethereum.git
+
+C:\dev\ethereum>git fetch --all
+
+C:\dev\ethereum>git pull origin master
+
 # Checking in files, e.g. all files from contracts directory
 C:\dev\ethereum\solidity\basics>git add contracts/*
 
