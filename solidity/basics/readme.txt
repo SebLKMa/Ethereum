@@ -3,6 +3,7 @@ https://medium.com/@gus_tavo_guim/reentrancy-attack-on-smart-contracts-how-to-id
 https://github.com/gustavoguimaraes/honeyPotReentranceAttack
 http://solidity.readthedocs.io/en/develop/contracts.html
 https://ethereum.stackexchange.com/questions/12778/how-to-send-some-amount-to-a-contract-in-truffle
+http://truffleframework.com/tutorials/debugging-a-smart-contract
 
 STEP 1 - Check our initial accounts balances
 truffle(develop)> Reentrant.deployed().then(instance => honeyPotAddress = instance.address)
@@ -74,7 +75,7 @@ https://ethereum.stackexchange.com/questions/7069/whats-the-point-of-sending-a-v
 https://ethereum.stackexchange.com/questions/26838/how-to-get-the-creator-of-a-contract-was-the-owner
 https://ethereum.stackexchange.com/questions/11484/how-can-contract-ownership-be-transferred-from-one-account-to-another
 
-TRACE
+TRACE- Reentrant and ReentrantAttacker
 Reentrant has 15
 truffle(develop)> Reentrant.deployed().then(instance => instance.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") }))
 
@@ -82,8 +83,7 @@ truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db4
 '15000000000000000000'
 truffle(develop)>  web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
 '0'
-truffle(develop)>  Reentrant.deployed().then(instance => instance.getWithdrawCount())
-BigNumber { s: 1, e: 0, c: [ 0 ] }
+truffle(develop)>  Reentrant.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
 
 ReentrantAttacker attacks with 2
 ReentrantAttacker.deployed().then(inst => inst.attack({ value: web3.toWei(2, "ether") }))
@@ -100,10 +100,27 @@ fallback() 5>=2        +2     withdraw() -2  3
 fallback() 3>=2        +2     withdraw() -2  1
 fallback() 1 ! (>=2)
 
-truffle(develop)> Reentrant.deployed().then(instance => instance.getWithdrawCount())
-BigNumber { s: 1, e: 0, c: [ 8 ] }
+truffle(develop)> Reentrant.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
+8
 truffle(develop)> web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
 '16000000000000000000'
 truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)
 '1000000000000000000'
 
+TRACE- ReentrantSafe and ReentrantAttackerFailed
+truffle(develop)> ReentrantSafe.deployed().then(instance => honeyAddress = instance.address)
+'0xaa588d3737b611bafd7bd713445b314bd453a5c8'
+truffle(develop)> web3.eth.getBalance('0xaa588d3737b611bafd7bd713445b314bd453a5c8').toString(10)
+'0'
+truffle(develop)> ReentrantAttackerFailed.deployed().then(instance => evilContract = instance.address)
+'0x75c35c980c0d37ef46df04d31a140b65503c0eed'
+truffle(develop)> web3.eth.getBalance('0x75c35c980c0d37ef46df04d31a140b65503c0eed').toString(10)
+'0'
+
+truffle(develop)> ReentrantSafe.deployed().then(instance => instance.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") }))
+
+ReentrantSafe.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
+ReentrantAttackerFailed.deployed().then(inst => inst.attack({ value: web3.toWei(2, "ether") }))
+
+ReentrantSafe.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
+shows 0 as revert() will rollback all state changes.
