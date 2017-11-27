@@ -5,8 +5,9 @@ contract ReentrantSafe {
     mapping (address => uint) public balances;
     
     uint withdrawCount;
+    event WithdrawInvoked(uint count);
 
-    function Reentrant() public payable {
+    function ReentrantSafe() public payable {
         deposit();
         resetWithdrawCount();
     }
@@ -23,6 +24,7 @@ contract ReentrantSafe {
     /// This function has a serious re-retrant bug
     function withdraw() public {
         withdrawCount++;
+        WithdrawInvoked(withdrawCount);
 
         // send back to msg.sender his msg.sender's balance from balances
         // NOTE: callee's fallback payable function will be invoked
