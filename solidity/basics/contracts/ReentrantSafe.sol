@@ -24,7 +24,7 @@ contract ReentrantSafe {
     /// This function has a serious re-retrant bug
     function withdraw() public {
         withdrawCount++;
-        WithdrawInvoked(withdrawCount);
+        WithdrawInvoked(withdrawCount); // NOTE: on revert() or throw, Ether is returned and no event will be emitted
 
         // send back to msg.sender his msg.sender's balance from balances
         // NOTE: callee's fallback payable function will be invoked
