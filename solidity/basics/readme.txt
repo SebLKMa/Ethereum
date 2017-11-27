@@ -85,6 +85,8 @@ http://www.blunderingcode.com/writing-secure-solidity/
 https://ethereum.stackexchange.com/questions/7069/whats-the-point-of-sending-a-value-in-a-contract-deployment-transaction
 https://ethereum.stackexchange.com/questions/26838/how-to-get-the-creator-of-a-contract-was-the-owner
 https://ethereum.stackexchange.com/questions/11484/how-can-contract-ownership-be-transferred-from-one-account-to-another
+https://ethereum.stackexchange.com/questions/1020/exception-in-contract-reverts-entire-stack-uses-all-gas
+https://ethereum.stackexchange.com/questions/16200/fallback-function-is-not-getting-called
 
 TRACE- Reentrant and ReentrantAttacker
 Reentrant has 15
@@ -123,15 +125,29 @@ truffle(develop)> ReentrantSafe.deployed().then(instance => honeyAddress = insta
 '0xaa588d3737b611bafd7bd713445b314bd453a5c8'
 truffle(develop)> web3.eth.getBalance('0xaa588d3737b611bafd7bd713445b314bd453a5c8').toString(10)
 '0'
+// assign the victim
+var honey; ReentrantSafe.deployed().then(function(deployed){honey=deployed;});
+
 truffle(develop)> ReentrantAttackerFailed.deployed().then(instance => evilContract = instance.address)
 '0x75c35c980c0d37ef46df04d31a140b65503c0eed'
 truffle(develop)> web3.eth.getBalance('0x75c35c980c0d37ef46df04d31a140b65503c0eed').toString(10)
 '0'
+// assign the attacker
+var attacker; ReentrantAttackerFailed.deployed().then(function(deployed){attacker=deployed;});
 
-truffle(develop)> ReentrantSafe.deployed().then(instance => instance.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") }))
+// track withdraw event on victim, NOTE: on revert() or throw, Ether is returned and no event will be emitted
+var theEvent = honey.WithdrawInvoked();
+theEvent.watch(function(err, result) { console.log(result.args.count.toNumber()) });
+
+// deposit amount to victim
+honey.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") })
+//truffle(develop)> ReentrantSafe.deployed().then(instance => instance.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") }))
 
 ReentrantSafe.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
+
+// attemp to attack the victim
 ReentrantAttackerFailed.deployed().then(inst => inst.attack({ value: web3.toWei(2, "ether") }))
+// NOTE: on revert() or throw, Ether is returned and no event will be emitted
 
 ReentrantSafe.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
 shows 0 as revert() will rollback all state changes.
