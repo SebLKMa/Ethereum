@@ -1,0 +1,87 @@
+https://github.com/ethereum/wiki/wiki/Design-Rationale#principles
+
+https://ethereum.stackexchange.com/questions/2307/why-does-a-solidity-throw-consume-all-gas/2548#2548
+
+https://ethereum.stackexchange.com/questions/1181/how-do-i-know-when-ive-run-out-of-gas-programmatically/1182#1182
+
+https://ethereum.stackexchange.com/questions/6007/how-can-the-transaction-status-from-a-thrown-error-be-detected-when-gas-can-be-e
+
+OutOfGas.deployed().then(instance => stupidContract = instance.address)
+var stupidContract; OutOfGas.deployed().then(function(deployed){stupidContract=deployed;});
+
+truffle(develop)> OutOfGas.deployed().then(function(instance){return instance.startInfiniteLoop(42);});
+Error: VM Exception while processing transaction: out of gas
+    at Object.InvalidResponse (C:\Users\likkeungm\AppData\Roaming\npm\node_modules\truffle\build\cli.bundled.js:43303:16)
+    at C:\Users\likkeungm\AppData\Roaming\npm\node_modules\truffle\build\cli.bundled.js:331156:36
+    at C:\Users\likkeungm\AppData\Roaming\npm\node_modules\truffle\build\cli.bundled.js:314196:9
+    at XMLHttpRequest.request.onreadystatechange (C:\Users\likkeungm\AppData\Roaming\npm\node_modules\truffle\build\cli.bundled.js:329855:7)
+    at XMLHttpRequestEventTarget.dispatchEvent (C:\Users\likkeungm\AppData\Roaming\npm\node_modules\truffle\build\cli.bundled.js:70159:18)
+    at XMLHttpRequest._setReadyState (C:\Users\likkeungm\AppData\Roaming\npm\node_modules\truffle\build\cli.bundled.js:70449:12)
+    at XMLHttpRequest._onHttpResponseEnd (C:\Users\likkeungm\AppData\Roaming\npm\node_modules\truffle\build\cli.bundled.js:70604:12)
+    at IncomingMessage.<anonymous> (C:\Users\likkeungm\AppData\Roaming\npm\node_modules\truffle\build\cli.bundled.js:70564:24)
+    at emitNone (events.js:110:20)
+    at IncomingMessage.emit (events.js:207:7)
+truffle(develop)> web3.eth.getTransaction('0x9c81f4f734064c235c888471a4f9c28c6074b977c3d13c06cd9d19d26a6346ad')
+{ hash: '0x9c81f4f734064c235c888471a4f9c28c6074b977c3d13c06cd9d19d26a6346ad',
+  nonce: 15,
+  blockHash: '0x38613b3dcffdb03a020a7ec8f178e37e5cae32d0d6f5bd724078cb19f62ef8f5',
+  blockNumber: 16,
+  transactionIndex: 0,
+  from: '0x627306090abab3a6e1400e9345bc60c78a8bef57',
+  to: '0xdda6327139485221633a1fcd65f4ac932e60a2e1',
+  value: BigNumber { s: 1, e: 0, c: [ 0 ] },
+  gas: 6721975,
+  gasPrice: BigNumber { s: 1, e: 11, c: [ 100000000000 ] },
+  input: '0xb478d588000000000000000000000000000000000000000000000000000000000000002a' }
+truffle(develop)> web3.eth.getTransactionReceipt('0x9c81f4f734064c235c888471a4f9c28c6074b977c3d13c06cd9d19d26a6346ad')
+{ transactionHash: '0x9c81f4f734064c235c888471a4f9c28c6074b977c3d13c06cd9d19d26a6346ad',
+  transactionIndex: 0,
+  blockHash: '0x38613b3dcffdb03a020a7ec8f178e37e5cae32d0d6f5bd724078cb19f62ef8f5',
+  blockNumber: 16,
+  gasUsed: 6721975,
+  cumulativeGasUsed: 6721975,
+  contractAddress: null,
+  logs: [] }
+
+OutOfGas.deployed().then(function(instance){return instance.getDummyValue.call();}).then(function(value){return value.toNumber()});
+
+PS C:\dev\ethereum\solidity\basics> truffle develop --log
+Connected to existing Truffle Develop session at http://localhost:9545/
+
+  develop:testrpc eth_sendTransaction +0ms
+  develop:testrpc  +643ms
+  develop:testrpc   Transaction: 0x22ef948f69eb7160b54e08d108c1726d4123781af5509cc8f10914ae018ee28c +0ms
+  develop:testrpc   Gas usage: 6721975 +16ms
+  develop:testrpc   Block Number: 16 +1ms
+  develop:testrpc   Block Time: Thu Dec 07 2017 11:37:23 GMT+0800 (Malay Peninsula Standard Time) +2ms
+  develop:testrpc   Runtime Error: invalid opcode +1ms
+  develop:testrpc  +1ms
+  develop:testrpc eth_getTransactionByHash +2m
+  develop:testrpc eth_getTransactionReceipt +24s
+
+PS C:\dev\ethereum\solidity\basics> truffle develop --log
+Connected to existing Truffle Develop session at http://localhost:9545/
+
+  develop:testrpc eth_sendTransaction +0ms
+  develop:testrpc  +2s
+  develop:testrpc   Transaction: 0x9c81f4f734064c235c888471a4f9c28c6074b977c3d13c06cd9d19d26a6346ad +0ms
+  develop:testrpc   Gas usage: 6721975 +0ms
+  develop:testrpc   Block Number: 16 +0ms
+  develop:testrpc   Block Time: Thu Dec 07 2017 13:13:08 GMT+0800 (Malay Peninsula Standard Time) +16ms
+  develop:testrpc   Runtime Error: out of gas +1ms
+  develop:testrpc  +0ms
+  develop:testrpc eth_getTransactionByHash +46s
+  develop:testrpc eth_getTransactionReceipt +33s
+
+NOTE:
+account[0] is used by default to execute functions
+Initial balance was
+web3.eth.getBalance('0x627306090abab3a6e1400e9345bc60c78a8bef57').toString(10)
+'99802838600000000000'
+After OOG the balance becomes:
+(so yes, even contract states were rolled back, gas is still consumed, Ether is paid to miner. nothing is free)
+web3.eth.getBalance('0x627306090abab3a6e1400e9345bc60c78a8bef57').toString(10)
+'99130641100000000000'
+
+OutOfGas.deployed().then(function(instance){return instance.getDummyValue.call();}).then(function(value){return value.toNumber()});
+1855
