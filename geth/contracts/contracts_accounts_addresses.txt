@@ -1,0 +1,138 @@
+geth01 account 0x4799c873f6574b299854bfd831ae99ad2e664e30
+contract address 0xbdf315ad0499d6e2b89501b9c5dc240f5938c096 <-- created in Browser-Solidity
+contract address 0xc7caf784fae5840bdc893b03b7391fce6efb6190
+
+var abi = [{"constant":true,"inputs":[],"name":"getBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getContractAmount","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getCustomerId","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"payment","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"contractAmount","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"completed","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"customerId","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"balance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getPayment","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_payment","type":"uint256"}],"name":"receivePayment","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"isCompleted","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"inputs":[{"name":"_customerId","type":"string"},{"name":"_contractAmount","type":"uint256"}],"payable":false,"type":"constructor"}]
+undefined
+var addr = "0xc7caf784fae5840bdc893b03b7391fce6efb6190"
+undefined
+var myContract = eth.contract(abi).at(addr)
+undefined
+>myContract.receivePayment(10, {from: eth.accounts[0]});
+ReferenceError: 'accounts' is not defined
+    at <anonymous>:1:37
+> personal.unlockAccount(eth.accounts[0], "BOSD");
+true
+> contract1.receivePayment(10, {from: eth.accounts[0]});
+"0x3b4259b906cf1ac865e51ba3f49c5c5adf5ebeecbeaa4d043fe32a39d5ff325c"
+> eth.pendingTransactions
+[{
+    blockHash: null,
+    blockNumber: null,
+    from: "0x4799c873f6574b299854bfd831ae99ad2e664e30",
+    gas: 90000,
+    gasPrice: 18000000000,
+    hash: "0x3b4259b906cf1ac865e51ba3f49c5c5adf5ebeecbeaa4d043fe32a39d5ff325c",
+    input: "0xe2eab483000000000000000000000000000000000000000000000000000000000000000a",
+    nonce: 15,
+    r: "0xc14a42ae62022ecbb2737dee90209b4283920d71eae9a0542799aa48bce1e9c3",
+    s: "0xc5b8273ed10ea66c30a7a51ac275a7e95ba3bfc019de909d036dee2b527e38c",
+    to: "0xc7caf784fae5840bdc893b03b7391fce6efb6190",
+    transactionIndex: 0,
+    v: "0x1b",
+    value: 0
+}]
+
+Above transaction is pending on the node that created it.
+For the other node to mine above transaction, admin.peers must reflect both nodes know each other.
+Use admin.addPeer to add second node to a peer.
+eth.pendingTransactions will still have nothing pending on second node because 
+transaction is only pending on the node that created it.
+However, second node can mine the transaction in the same network by miner.start(1)
+
+> myContract.receivePayment(10, {from: eth.accounts[0]});
+"0x397e78a66164b2495ee802b1af99da281c8044ef4eab6d4a1e9e4508378c0165"
+> eth.pendingTransactions
+[{
+    blockHash: null,
+    blockNumber: null,
+    from: "0x4799c873f6574b299854bfd831ae99ad2e664e30",
+    gas: 90000,
+    gasPrice: 18000000000,
+    hash: "0x397e78a66164b2495ee802b1af99da281c8044ef4eab6d4a1e9e4508378c0165",
+    input: "0xe2eab483000000000000000000000000000000000000000000000000000000000000000a",
+    nonce: 18,
+    r: "0xd509d180c7eefb32350b4449c0c0e97187d03a0c038f683d2c406c0976a3d28",
+    s: "0x111057450118f1fc0ff3f44e80db60b8b62edf5f3a2b33b38ab94f4c8f4d8fb3",
+    to: "0xc7caf784fae5840bdc893b03b7391fce6efb6190",
+    transactionIndex: 0,
+    v: "0x1c",
+    value: 0
+}]
+>
+
+https://ethereum.meta.stackexchange.com/questions/443/blog-simple-storage-patterns-in-solidity
+
+TnoProject: P1
+0x6fec0078d278fb19565a27cbb46ccf9e527218c6
+TnoProject: P2
+0x878ed3f2dfa42a2cb0e39b497a2d467489faa657
+
+var tnoAbi = [{"constant":false,"inputs":[{"name":"_id","type":"string"},{"name":"_description","type":"string"}],"name":"createTask","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_taskId","type":"string"},{"name":"_deliverableId","type":"string"}],"name":"getDeliverablePercent","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_taskId","type":"string"},{"name":"_deliverableId","type":"string"},{"name":"_deliverableDescription","type":"string"}],"name":"createDeliverable","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_taskId","type":"string"},{"name":"_deliverableId","type":"string"},{"name":"_percent","type":"uint256"}],"name":"setDeliverablePercent","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_id","type":"string"},{"name":"_description","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
+
+var tnoContractAddr = "0x6fec0078d278fb19565a27cbb46ccf9e527218c6"
+var tnoContract = eth.contract(abi).at(tnoContractAddr)
+
+personal.unlockAccount(eth.accounts[0], password)
+tnoContract.createTask("P1T1", "P1 Task 1", {from: eth.accounts[0]})
+tnoContract.createDeliverable("P1T1", "P1T1D1", "P1 T1 Deliverable 1", {from: eth.accounts[0]})
+tnoContract.setDeliverablePercent("P1T1", "P1T1D1", 10, {from: eth.accounts[0]})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> myContract.getTimeRecord
+function()
+> myContract.getTimeRecord()
+"08:28"
+> personal.unlockAccount(eth.accounts[0], "BOSD")
+true
+> myContract.setTimeRecord("18:38", {from: eth.accounts[0]})
+"0x322c35f57cf50765a3a404b910e3d901a2da8e9d9d46142a8a64ea99dd9c94d0"
+> eth.pendingTransactions
+[{
+    blockHash: null,
+    blockNumber: null,
+    from: "0x5be060fa31a851a20a4739dc8d45619f6d292461",
+    gas: 90000,
+    gasPrice: 18000000000,
+    hash: "0x322c35f57cf50765a3a404b910e3d901a2da8e9d9d46142a8a64ea99dd9c94d0",
+    input: "0x4329d3ff0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000531383a3338000000000000000000000000000000000000000000000000000000",
+    nonce: 0,
+    r: "0x3accef565acfb6d802f78ec97f3d79936af893b5fdeb859521f788c27128bcaf",
+    s: "0x2fdcbadf212214c71b80c2b7c3e388ab5d9b32b77eed7975699642e7559b453b",
+    to: "0xe0359a20a8fe4459e0edfe5ab3e50a99612b6b96",
+    transactionIndex: 0,
+    v: "0x1b",
+    value: 0
+}]
+> eth.blockNumber
+341
+> miner.start(1)
+null
+> eth.blockNumber
+344
+> eth.blockNumber
+346
+> miner.stop()
+
+https://ethereum.stackexchange.com/questions/2404/upgradeable-smart-contracts
+https://github.com/ethereum/go-ethereum/wiki/Connecting-to-the-network
+https://github.com/ethereum/go-ethereum/issues/3694
+
