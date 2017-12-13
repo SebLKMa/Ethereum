@@ -1,0 +1,45 @@
+// Media plugin
+
+(function ($) {
+
+    $.fn.loadMedia = function (data) {
+        return this.each(function () {
+            var data = data || $(this).data('embed');
+            var embed = embedIframe(data);
+            $(this).html(embed);
+        });
+    };
+
+    $.fn.loadMediaPrepare = function (waitforload) {
+        this.append('<span class="_loader"/>');
+        if (waitforload) {
+            var media = this;
+            $(window).load(function () {
+                media.loadMedia();
+            });
+        } else {
+            this.loadMedia();
+        }
+        return this;
+    };
+
+    function embedIframe(embed) {
+        return '<iframe src="' + embed + '" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+    }
+
+    $(function () {
+        $("div.media").click(function () {
+            $(this).loadMediaPrepare(false);
+            $(this).addClass("loaded");
+        });
+    });
+
+    // When english template is loaded change financialstatements image
+    if(window.location.href.indexOf('/en/') != -1) {
+        $('.annualreport-nl').css('display', 'none');
+        $('.financialstatements-nl').css('display', 'none');
+        $('.annualreport-en').css('display', 'inline-block');
+        $('.financialstatements-en').css('display', 'inline-block');
+    }
+
+})(jQuery);

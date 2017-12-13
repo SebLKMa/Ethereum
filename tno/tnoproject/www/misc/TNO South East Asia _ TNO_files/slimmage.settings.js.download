@@ -1,0 +1,8 @@
+window.slimmage = {
+    verbose: true,
+    adjustImageParameters: function(data){
+        if (window.innerWidth <= 480) {
+            data.quality = 30;
+        }
+    }
+};

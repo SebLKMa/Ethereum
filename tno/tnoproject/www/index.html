@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TNO SG Blockchain</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha256-ZT4HPpdCOt2lvDkXokHuhJfdOKSPFLzeAJik5U/Q+l4=" crossorigin="anonymous" />
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">TNO SG Blockchain</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#fulfill">Tasks</a></li>
+          <li><a href="#admin">Deliverables</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav><!--/.navbar -->
+
+  <div class="container theme-showcase" role="main">
+
+    <div class="starter-template">
+      <h1>Project: Blockchain Security By Design</h1>
+      <p class="lead">This is a DApp for getting and setting our project status.</p>
+    </div>
+
+    <div id="alerts"></div>
+
+    <div id="overview" class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Overview</h3>
+      </div>
+      <div class="panel-body">
+        <p>Task count? <span id="task-count"></span></p>
+        <p>Deliverable count for current Task? <span id="deliver-count"></span></p>
+        <p>Project Completion Percentage? <span id="project-percent"></span></p>
+      </div>
+    </div><!--/#overview -->
+
+    <div id="task" class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Tasks</h3>
+      </div>
+      <div class="panel-body form-inline">
+        <label for="task-id" class="sr-only">Task ID</label>
+        <input type="text" id="task-id" class="form-control" placeholder="ID"></input>
+        <label for="task-description" class="sr-only">Task Description</label>
+        <input type="text" id="task-description" class="form-control" placeholder="Description"></input>
+        <button type="button" class="btn btn-lg btn-primary" onclick="Dapp.createTask()">Create</button>
+      </div>
+    </div><!--/#createTask -->
+    
+    <div id="Deliverables" class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Deliverables</h3>
+      </div>
+      <div class="panel-body form-inline">
+        <label for="deliver-id" class="sr-only">Deliverable ID</label>
+        <input type="text" id="deliver-id" class="form-control" placeholder="ID"></input>
+        <label for="deliver-description" class="sr-only">Deliverable Description</label>
+        <input type="text" id="deliver-description" class="form-control" placeholder="Description"></input>
+        <button type="button" class="btn btn-lg btn-primary" onclick="Dapp.createDeliverable()">Create</button>
+      </div>
+    </div><!--/#createDeliverable -->
+
+    <div id="Status" class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">Deliverable Update</h3>
+      </div>
+      <div class="panel-body form-inline">
+        <label for="deliver-percent" class="sr-only">Deliver percent</label>
+        <input type="text" id="deliver-percent" class="form-control" placeholder="Percentage Completion"></input>
+        <input type="text" id="by-account" class="form-control" placeholder="0x...account"></input>
+        <button type="button" class="btn btn-lg btn-warning" onclick="Dapp.updateDeliverPercent()">Update</button>
+      </div>
+    </div><!--/#status -->
+
+  </div><!--/.container -->
+
+  
+  <script src="./bundle.js"></script>
+  
+  <!--
+  <script src="../src/dapp.js"></script>
+  -->
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "tnoproject",
+  "version": "0.0.1",
+  "description": "Decentralised application for TNO SG Blockchain Project status.",
+  "repository": "https://github.com/sebma/todo",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server"
+  },
+  "author": "Sebastian Ma",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "eth-ens-namehash": "^2.0.0",
+    "jquery": "^3.2.1",
+    "json-loader": "^0.5.7",
+    "truffle-contract": "^2.0.5",
+    "web3": "^0.20.2",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.7.1"
+  },
+  "dependencies": {
+    "dev-ip": "^1.0.1"
+  }
+}
