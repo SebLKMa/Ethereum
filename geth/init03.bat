@@ -1,0 +1,1 @@
+geth --datadir "C:\dev\ethereum\geth\data\03" init "C:\dev\ethereum\geth\data\00\DefaultGenesis.json"

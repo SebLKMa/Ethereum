@@ -1,0 +1,1 @@
+Get-Content C:\dev\ethereum\geth\data\01\console.log –Wait
