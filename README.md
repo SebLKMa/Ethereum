@@ -36,7 +36,10 @@ C:\dev\ethereum\solidity\basics>git push -u origin master
 
 # Pull a specific directory
 cd into the top of your repo copy
+
 git fetch
+
 git checkout HEAD path/to/your/dir/or/file
 (Where "path/..." in starts at the directory just below the repo root containing your ".../file")
+
 
