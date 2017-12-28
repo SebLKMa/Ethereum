@@ -1,0 +1,387 @@
+{
+  "contractName": "OwnedHello",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "kill",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "greet",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_greeting",
+          "type": "string"
+        }
+      ],
+      "name": "greeter",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6060604052336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550610394806100536000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806341c0e1b51461005c578063cfae321714610071578063faf27bca146100ff575b600080fd5b341561006757600080fd5b61006f61015c565b005b341561007c57600080fd5b6100846101ed565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156100c45780820151818401526020810190506100a9565b50505050905090810190601f1680156100f15780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561010a57600080fd5b61015a600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610295565b005b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614156101eb576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16ff5b565b6101f56102af565b60018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561028b5780601f106102605761010080835404028352916020019161028b565b820191906000526020600020905b81548152906001019060200180831161026e57829003601f168201915b5050505050905090565b80600190805190602001906102ab9291906102c3565b5050565b602060405190810160405280600081525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061030457805160ff1916838001178555610332565b82800160010185558215610332579182015b82811115610331578251825591602001919060010190610316565b5b50905061033f9190610343565b5090565b61036591905b80821115610361576000816000905550600101610349565b5090565b905600a165627a7a72305820ada8137a2c79dbe25856338490a6f60a1f157939e4d04c338c00a5ad6afbac720029",
+  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806341c0e1b51461005c578063cfae321714610071578063faf27bca146100ff575b600080fd5b341561006757600080fd5b61006f61015c565b005b341561007c57600080fd5b6100846101ed565b6040518080602001828103825283818151815260200191508051906020019080838360005b838110156100c45780820151818401526020810190506100a9565b50505050905090810190601f1680156100f15780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b341561010a57600080fd5b61015a600480803590602001908201803590602001908080601f01602080910402602001604051908101604052809392919081815260200183838082843782019150505050505091905050610295565b005b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614156101eb576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16ff5b565b6101f56102af565b60018054600181600116156101000203166002900480601f01602080910402602001604051908101604052809291908181526020018280546001816001161561010002031660029004801561028b5780601f106102605761010080835404028352916020019161028b565b820191906000526020600020905b81548152906001019060200180831161026e57829003601f168201915b5050505050905090565b80600190805190602001906102ab9291906102c3565b5050565b602060405190810160405280600081525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061030457805160ff1916838001178555610332565b82800160010185558215610332579182015b82811115610331578251825591602001919060010190610316565b5b50905061033f9190610343565b5090565b61036591905b80821115610361576000816000905550600101610349565b5090565b905600a165627a7a72305820ada8137a2c79dbe25856338490a6f60a1f157939e4d04c338c00a5ad6afbac720029",
+  "sourceMap": "94:373:6:-;;;339:10:5;331:5;;:18;;;;;;;;;;;;;;;;;;94:373:6;;;;;;",
+  "deployedSourceMap": "94:373:6:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;422:113:5;;;;;;;;;;;;;;380:84:6;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:2;8:100;;;99:1;94:3;90;84:5;80:1;75:3;71;64:6;52:2;49:1;45:3;40:15;;8:100;;;12:14;3:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;266:81:6;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;422:113:5;474:5;;;;;;;;;;;460:19;;:10;:19;;;456:72;;;510:5;;;;;;;;;;;497:19;;;456:72;422:113::o;380:84:6:-;422:6;;:::i;:::-;448:8;441:15;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;380:84;:::o;266:81::-;330:9;319:8;:20;;;;;;;;;;;;:::i;:::-;;266:81;:::o;94:373::-;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.18;\r\nimport \"./Ownable.sol\";\r\n\r\n/**\r\n    Concrete ownable contract\r\n */\r\ncontract OwnedHello is Ownable {\r\n    /* define variable greeting of the type string */\r\n    string greeting;\r\n    \r\n    /* this runs when the contract is executed */\r\n    function greeter(string _greeting) public {\r\n        greeting = _greeting;\r\n    }\r\n\r\n    /* main function */\r\n    function greet() public constant returns (string) {\r\n        return greeting;\r\n    }\r\n}",
+  "sourcePath": "C:\\dev\\ethereum\\solidity\\basics\\contracts\\OwnedHello.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/C/dev/ethereum/solidity/basics/contracts/OwnedHello.sol",
+      "exportedSymbols": {
+        "OwnedHello": [
+          222
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 198,
+        "name": "PragmaDirective",
+        "src": "0:24:6"
+      },
+      {
+        "attributes": {
+          "SourceUnit": 197,
+          "absolutePath": "/C/dev/ethereum/solidity/basics/contracts/Ownable.sol",
+          "file": "./Ownable.sol",
+          "scope": 223,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 199,
+        "name": "ImportDirective",
+        "src": "26:23:6"
+      },
+      {
+        "attributes": {
+          "contractDependencies": [
+            196
+          ],
+          "contractKind": "contract",
+          "documentation": "Concrete ownable contract\r",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            222,
+            196
+          ],
+          "name": "OwnedHello",
+          "scope": 223
+        },
+        "children": [
+          {
+            "attributes": {
+              "arguments": [
+                null
+              ]
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "Ownable",
+                  "referencedDeclaration": 196,
+                  "type": "contract Ownable"
+                },
+                "id": 200,
+                "name": "UserDefinedTypeName",
+                "src": "117:7:6"
+              }
+            ],
+            "id": 201,
+            "name": "InheritanceSpecifier",
+            "src": "117:7:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "greeting",
+              "scope": 222,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "string storage ref",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "string",
+                  "type": "string storage pointer"
+                },
+                "id": 202,
+                "name": "ElementaryTypeName",
+                "src": "187:6:6"
+              }
+            ],
+            "id": 203,
+            "name": "VariableDeclaration",
+            "src": "187:15:6"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "greeter",
+              "payable": false,
+              "scope": 222,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_greeting",
+                      "scope": 213,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "string memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "string",
+                          "type": "string storage pointer"
+                        },
+                        "id": 204,
+                        "name": "ElementaryTypeName",
+                        "src": "283:6:6"
+                      }
+                    ],
+                    "id": 205,
+                    "name": "VariableDeclaration",
+                    "src": "283:16:6"
+                  }
+                ],
+                "id": 206,
+                "name": "ParameterList",
+                "src": "282:18:6"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 207,
+                "name": "ParameterList",
+                "src": "308:0:6"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "string storage ref"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 203,
+                              "type": "string storage ref",
+                              "value": "greeting"
+                            },
+                            "id": 208,
+                            "name": "Identifier",
+                            "src": "319:8:6"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 205,
+                              "type": "string memory",
+                              "value": "_greeting"
+                            },
+                            "id": 209,
+                            "name": "Identifier",
+                            "src": "330:9:6"
+                          }
+                        ],
+                        "id": 210,
+                        "name": "Assignment",
+                        "src": "319:20:6"
+                      }
+                    ],
+                    "id": 211,
+                    "name": "ExpressionStatement",
+                    "src": "319:20:6"
+                  }
+                ],
+                "id": 212,
+                "name": "Block",
+                "src": "308:39:6"
+              }
+            ],
+            "id": 213,
+            "name": "FunctionDefinition",
+            "src": "266:81:6"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "greet",
+              "payable": false,
+              "scope": 222,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 214,
+                "name": "ParameterList",
+                "src": "394:2:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 221,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "string memory",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "string",
+                          "type": "string storage pointer"
+                        },
+                        "id": 215,
+                        "name": "ElementaryTypeName",
+                        "src": "422:6:6"
+                      }
+                    ],
+                    "id": 216,
+                    "name": "VariableDeclaration",
+                    "src": "422:6:6"
+                  }
+                ],
+                "id": 217,
+                "name": "ParameterList",
+                "src": "421:8:6"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 217
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "overloadedDeclarations": [
+                            null
+                          ],
+                          "referencedDeclaration": 203,
+                          "type": "string storage ref",
+                          "value": "greeting"
+                        },
+                        "id": 218,
+                        "name": "Identifier",
+                        "src": "448:8:6"
+                      }
+                    ],
+                    "id": 219,
+                    "name": "Return",
+                    "src": "441:15:6"
+                  }
+                ],
+                "id": 220,
+                "name": "Block",
+                "src": "430:34:6"
+              }
+            ],
+            "id": 221,
+            "name": "FunctionDefinition",
+            "src": "380:84:6"
+          }
+        ],
+        "id": 222,
+        "name": "ContractDefinition",
+        "src": "94:373:6"
+      }
+    ],
+    "id": 223,
+    "name": "SourceUnit",
+    "src": "0:467:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-12-07T05:33:47.582Z"
+}

@@ -25,7 +25,7 @@ contract ReentrantAttacker {
         victim.deposit.value(msg.value)(); // sender/attacker can deposit a small amount
         victim.withdraw(); // victim's withdraw function is not re-entrant safe
                            // below fallback will be invoked
-    }
+    }                   
 
     function () public payable {
         // this fallback will be recursively called by calling victim's withdraw

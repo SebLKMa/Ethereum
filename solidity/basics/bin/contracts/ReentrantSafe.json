@@ -1,0 +1,27 @@
+{
+    "abi": "[{\"constant\":true,\"inputs\":[{\"name\":\"\",\"type\":\"address\"}],\"name\":\"balances\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"getWithdrawCount\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"resetWithdrawCount\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"deposit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"constructor\"},{\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"fallback\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"name\":\"count\",\"type\":\"uint256\"}],\"name\":\"WithdrawInvoked\",\"type\":\"event\"}]",
+    "bytecode": "60606040526100196401000000006101b161003382021704565b61002e6401000000006101aa61005082021704565b610057565b600160a060020a0333166000908152602081905260409020349055565b6000600155565b610207806100666000396000f30060606040526004361061006c5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166327e235e3811461007c5780633ccfd60b146100ba57806347d04c71146100cf578063be4d8da7146100e2578063d0e30db0146100f5575b341561007757600080fd5b600080fd5b341561008757600080fd5b6100a873ffffffffffffffffffffffffffffffffffffffff600435166100fd565b60405190815260200160405180910390f35b34156100c557600080fd5b6100cd61010f565b005b34156100da57600080fd5b6100a86101a4565b34156100ed57600080fd5b6100cd6101aa565b6100cd6101b1565b60006020819052908152604090205481565b600180548101908190556000907fcba00c84da21298af2f10125d2e7ebd79b71a90ef0190824e0b82f1609a8cf449060405190815260200160405180910390a15073ffffffffffffffffffffffffffffffffffffffff3316600081815260208190526040808220805492905590919082905160006040518083038185876187965a03f19250505015156101a157600080fd5b50565b60015490565b6000600155565b73ffffffffffffffffffffffffffffffffffffffff331660009081526020819052604090203490555600a165627a7a72305820ac29336ec07815605dc31756dcd1f901a2fef81fb50d2fec3c4b8306e2acb7710029",
+    "functionHashes": {
+        "balances(address)": "27e235e3",
+        "deposit()": "d0e30db0",
+        "getWithdrawCount()": "47d04c71",
+        "resetWithdrawCount()": "be4d8da7",
+        "withdraw()": "3ccfd60b"
+    },
+    "gasEstimates": {
+        "creation": [
+            null,
+            103800
+        ],
+        "external": {
+            "": 195,
+            "balances(address)": 454,
+            "deposit()": 20279,
+            "getWithdrawCount()": 417,
+            "resetWithdrawCount()": 5197,
+            "withdraw()": null
+        },
+        "internal": {}
+    },
+    "runtimeBytecode": "60606040526004361061006c5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166327e235e3811461007c5780633ccfd60b146100ba57806347d04c71146100cf578063be4d8da7146100e2578063d0e30db0146100f5575b341561007757600080fd5b600080fd5b341561008757600080fd5b6100a873ffffffffffffffffffffffffffffffffffffffff600435166100fd565b60405190815260200160405180910390f35b34156100c557600080fd5b6100cd61010f565b005b34156100da57600080fd5b6100a86101a4565b34156100ed57600080fd5b6100cd6101aa565b6100cd6101b1565b60006020819052908152604090205481565b600180548101908190556000907fcba00c84da21298af2f10125d2e7ebd79b71a90ef0190824e0b82f1609a8cf449060405190815260200160405180910390a15073ffffffffffffffffffffffffffffffffffffffff3316600081815260208190526040808220805492905590919082905160006040518083038185876187965a03f19250505015156101a157600080fd5b50565b60015490565b6000600155565b73ffffffffffffffffffffffffffffffffffffffff331660009081526020819052604090203490555600a165627a7a72305820ac29336ec07815605dc31756dcd1f901a2fef81fb50d2fec3c4b8306e2acb7710029"
+}

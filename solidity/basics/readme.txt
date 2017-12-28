@@ -92,8 +92,7 @@ TRACE- Reentrant and ReentrantAttacker
 Reentrant has 15
 truffle(develop)> Reentrant.deployed().then(instance => instance.deposit({from: web3.eth.accounts[1], value: web3.toWei(15, "ether") }))
 
-truffle(develop)> web3.eth.getBalance('0x9fbda871d559710256a2502a2517b794b482db40').toString(10)
-'15000000000000000000'
+truffle(develop)>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 truffle(develop)>  web3.eth.getBalance('0x30753e4a8aad7f8597332e813735def5dd395028').toString(10)
 '0'
 truffle(develop)>  Reentrant.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
