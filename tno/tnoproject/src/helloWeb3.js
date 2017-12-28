@@ -1,3 +1,10 @@
+/**
+ * See:
+ * https://github.com/ethereum/web3.js
+ * https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console
+ * 
+ */
+
 var Web3 = require("web3");
 console.log("hallo Web3");
 
@@ -12,7 +19,6 @@ var coinbase = web3.eth.coinbase;
 var balance = web3.eth.getBalance(coinbase);
 console.log(balance);
 
-//web3 = new Web3(provider);
 web3.eth.accounts.forEach(function(account)  {
     balance = web3.eth.getBalance(account);
     console.log(balance);
