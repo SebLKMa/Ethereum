@@ -1,172 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports=[
-  {
-    "constant": true,
-    "inputs": [
-
-    ],
-    "name": "creator",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "receiver",
-        "type": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "sendTokens",
-    "outputs": [
-      {
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-
-    ],
-    "name": "name",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-
-    ],
-    "name": "totalSupply",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "balances",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-
-    ],
-    "name": "INITIAL_SUPPLY",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-
-    ],
-    "name": "decimals",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-
-    ],
-    "name": "symbol",
-    "outputs": [
-      {
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  }
-]
-
+module.exports=[{"constant":true,"inputs":[],"name":"creator","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"receiver","type":"address"},{"name":"amount","type":"uint256"}],"name":"sendTokens","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]
 },{}],2:[function(require,module,exports){
 var asn1 = exports;
 
@@ -49052,12 +48885,36 @@ var web3 = new _web2.default(new _web2.default.providers.HttpProvider("http://lo
 
 // This is an interface of the MyToken contract, called ABI, that we will interact with it
 // TODO: fix SebToken.json file
-var myTokenContractABI = require('../bin/contracts/testcontract.json');
+//const myTokenContractABI = require('../bin/contracts/testcontract.json');
+///const MyTokenContract = web3.eth.contract(myTokenContractABI);
+
+//var fs = require('fs'); beware of file i/o, dapp is client side, not accessing server files !!!
+var myTokenContractABI = require('../bin/contracts/SebToken_.json');
 var MyTokenContract = web3.eth.contract(myTokenContractABI);
 
-//const myTokenContractABI = require('../bin/contracts/SebToken.json');
-//const abiJson = JSON.parse(myTokenContractABI.toString());
-//onst MyTokenContract = web3.eth.contract(abiJson);
+/*
+We are not creating new contract dynamically
+Remember real world eth client creation of new contract requires account password
+and transactions have to be mined !!!
+const setMyContractAddress = () => {
+
+  if (myContractAddress == null) {
+    let abiFile = '[{"constant":true,"inputs":[],"name":"creator","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"receiver","type":"address"},{"name":"amount","type":"uint256"}],"name":"sendTokens","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"balances","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"}]';
+    let abiJson = JSON.parse(abiFile.toString());
+    let binData = "6060604052341561000f57600080fd5b60008054600160a060020a03338116600160a060020a0319909216919091178083556127106001819055911682526002602052604090912055610214806100576000396000f30060606040526004361061006c5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166302d05d3f811461007157806305ab421d146100a057806318160ddd146100d657806327e235e3146100fb57806370a082311461011a575b600080fd5b341561007c57600080fd5b610084610139565b604051600160a060020a03909116815260200160405180910390f35b34156100ab57600080fd5b6100c2600160a060020a0360043516602435610148565b604051901515815260200160405180910390f35b34156100e157600080fd5b6100e96101b5565b60405190815260200160405180910390f35b341561010657600080fd5b6100e9600160a060020a03600435166101bb565b341561012557600080fd5b6100e9600160a060020a03600435166101cd565b600054600160a060020a031681565b60003381831161015757600080fd5b600160a060020a0381166000908152600260205260409020548390101561017d57600080fd5b600160a060020a0380821660009081526002602052604080822080548790039055918616815220805484019055600191505092915050565b60015481565b60026020526000908152604090205481565b600160a060020a0316600090815260026020526040902054905600a165627a7a72305820be75439a6d55b732457fd08eb481490f93ac7571ab52ae8ece84cac0fb712c330029";
+    let accountUsed = web3.eth.accounts[0];
+    let myContract = web3.eth.contract(abiJson);
+    let contractCreationData = { data: binData, from: accountUsed, gas:999999 };
+    let deployedContract = myContract.new(contractCreationData); 
+    // store the created contract address
+    let myContractAddress = deployedContract.address; 
+    // get the created contract instance
+    contractInstance = myContract.at(contractAddress);
+  }
+  // Hard-coding a contract address ot you have to paste a valid contract address created previously
+  //$('#contract-address').val(myContractAddress);
+}
+*/
 
 // We will use this function to show the status of the deployed token sale contract
 var synchSmartContract = function synchSmartContract() {
@@ -49137,4 +48994,4 @@ synchAccounts();
   synchAccounts();
 });
 
-},{"../bin/contracts/testcontract.json":1,"jquery":140,"web3":194}]},{},[245]);
+},{"../bin/contracts/SebToken_.json":1,"jquery":140,"web3":194}]},{},[245]);

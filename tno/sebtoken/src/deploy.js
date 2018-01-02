@@ -26,8 +26,9 @@ myContract = web3.eth.contract(abiJson);
 contractCreationData = { data: binData, from: accountUsed, gas:999999 };
 deployedContract = myContract.new(contractCreationData); 
 
-// store the created contract address, e.g. '0x65e4b5d61a45ed9f18efba3af40ebe31803cf53'
+// store the created contract address, e.g. '0x8156d1967fbd680d50ffddd9652f4482aa4ac8cf'
 contractAddress = deployedContract.address;
+console.log("Contract Address: " + contractAddress);
 
 // get the created contract instance
 contractInstance = myContract.at(contractAddress);
