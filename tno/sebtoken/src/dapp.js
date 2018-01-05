@@ -21,7 +21,7 @@ const MyTokenContract = web3.eth.contract(myTokenContractABI);
 /*
 We are not creating new contract dynamically
 Remember real world eth client creation of new contract requires account password
-and transactions have to be mined !!!
+and transactions have to be mined !!!.
 const setMyContractAddress = () => {
 
   if (myContractAddress == null) {
