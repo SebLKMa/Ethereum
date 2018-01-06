@@ -1,0 +1,25 @@
+https://ethereum.stackexchange.com/questions/8953/how-to-run-your-own-bootstrap-node-in-ethereum
+https://github.com/ethereum/go-ethereum/wiki/Setting-up-private-network-or-local-cluster
+
+1. Generate node key file
+bootnode -genkey bootnode\nodekeyfile
+cat bootnode\nodekeyfile
+OR
+more bootnode\nodekeyfile
+
+2. Run bootnode with node key file
+bootnode -nodekey bootnode\nodekeyfile
+OR to debug with
+bootnode -verbosity 9 -nodekey bootnode\nodekeyfile
+INFO [01-06|15:41:37] UDP listener up       self=enode://6d35248c9f26c788f6014b7f55a71c910eea1a7db5c40962986448d6df44ae76aff50908dfeeb4462fbf2c08dcd0d4d432376df69687ac1def2d57206f0a25e7@[::]:30301
+
+3. Store the bootnode's enode in your start geth .sh or bat --bootnodes argument
+E.g.
+enode://6d35248c9f26c788f6014b7f55a71c910eea1a7db5c40962986448d6df44ae76aff50908dfeeb4462fbf2c08dcd0d4d432376df69687ac1def2d57206f0a25e7@[::]:30301
+
+4. Check netstat UDP 30301
+
+5. Start geth nodes with --bootnodes
+NOTE: --nodiscover cannot be used with --bootnodes (bootnodes uses UDP)
+NOTE: --bootnodes must specify IP even for localhost, i.e. [127.0.0.1]:30301 instead of [::]:30301
+Refer to start01bootnode.bat and start02bootnode.bat

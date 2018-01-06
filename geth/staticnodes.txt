@@ -1,0 +1,7 @@
+For node 1 to know node 2 and 3, add the enodes in the file geth\data\01\static-nodes.json
+e.g.
+[
+  "enode://4af1bb592cc229a00bb7bf8b7c2906dde9c6b7bbe3df6673c9bddf90926c9f15111d927358d2bd5d5223860dcac6724e6d237037b31b9af2e90f93b5b090dc85@[::]:30304"
+  ,"enode://...node2"
+  ,"enode://...node3"
+]
