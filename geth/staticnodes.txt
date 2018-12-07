@@ -5,3 +5,7 @@ e.g.
   ,"enode://...node2"
   ,"enode://...node3"
 ]
+
+Refer to the start up lines in your console.log:
+INFO [12-01|11:32:42] Starting P2P networking 
+INFO [12-01|11:32:44] UDP listener up  self=enode://48030831b9d6b393e316b65e52db9ec8454a2eda65d1eee7629eec9ca9c284704f8edfbb571e355ce30264ae2c513a231b7b85225473e73a7787fe744f57c6a9@[::]:30303
