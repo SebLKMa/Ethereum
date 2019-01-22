@@ -1,6 +1,6 @@
 var Web3 = require("web3");
 var contract = require("truffle-contract");
-var TNOProject = contract(require("../build/contracts/TNOProject.json"));
+var Project = contract(require("../build/contracts/BCProject.json"));
 require("bootstrap");
 
 var account; // the account used for executing contract methods
@@ -29,7 +29,7 @@ window.Dapp = {
   },
 
   setTaskCount: function() {
-    TNOProject.deployed().then(function(instance) {
+    Project.deployed().then(function(instance) {
       return instance.getNumberOfTasks.call();
     }).then(function(value) {
       var element = document.getElementById("task-count");
@@ -40,7 +40,7 @@ window.Dapp = {
   },
   
   setDeliverableCount: function() {
-    TNOProject.deployed().then(function(instance) {
+    Project.deployed().then(function(instance) {
       var taskId = document.getElementById("task-id").value;
       return instance.getNumberOfDeliverables.call(taskId);
     }).then(function(value) {
@@ -52,7 +52,7 @@ window.Dapp = {
   },
   
   setProjectPercent: function() {
-    TNOProject.deployed().then(function(instance) {
+    Project.deployed().then(function(instance) {
       return instance.getProjectPercent.call();
     }).then(function(value) {
       var element = document.getElementById("project-percent");
@@ -63,7 +63,7 @@ window.Dapp = {
   },
   
   setPercentEventWatcher: function() {
-    TNOProject.deployed().then(function(instance) {
+    Project.deployed().then(function(instance) {
       percentEventWatcher = instance.PercentUpdated();
       percentEventWatcher.watch(function(error, result){
         // result contains various information including the argumets given to the PercentUpdated
@@ -84,7 +84,7 @@ window.Dapp = {
     var self = this;
     var id = document.getElementById("task-id").value;
     var desc = document.getElementById("task-description").value;
-    TNOProject.deployed().then(function(instance) {
+    Project.deployed().then(function(instance) {
       self.setAlert("Submitting new Task...");
       return instance.createTask(id, desc, {from: account, gas: 900001});
     }).then(function() {
@@ -100,7 +100,7 @@ window.Dapp = {
     var taskId = document.getElementById("task-id").value;
     var id = document.getElementById("deliver-id").value;
     var desc = document.getElementById("deliver-description").value;
-    TNOProject.deployed().then(function(instance) {
+    Project.deployed().then(function(instance) {
       self.setAlert("Submitting new Deliverable...");
       return instance.createDeliverable(taskId, id, desc, {from: account, gas: 900001});
     }).then(function() {
@@ -118,7 +118,7 @@ window.Dapp = {
     var deliverPercent = parseInt(document.getElementById("deliver-percent").value);
     var byAccount = document.getElementById("by-account").value;
     console.log(taskId, deliverId, deliverPercent);
-    TNOProject.deployed().then(function(instance) {
+    Project.deployed().then(function(instance) {
       self.setAlert("Submitting new Deliverable Percent...");
       var accountUsed = accountX;
       if (byAccount!=null && byAccount!=undefined) {
@@ -143,7 +143,7 @@ window.addEventListener("load", function() {
   }
   //IronDoers.setProvider(web3.currentProvider);
   //IronPromise.setProvider(web3.currentProvider);
-  TNOProject.setProvider(web3.currentProvider);
+  Project.setProvider(web3.currentProvider);
 
   web3.eth.getAccounts(function(err, accounts) {
     if (err) {
