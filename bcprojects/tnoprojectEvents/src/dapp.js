@@ -1,6 +1,6 @@
 var Web3 = require("web3");
 var contract = require("truffle-contract");
-var TNOProject = contract(require("../../tnoproject/build/contracts/TNOProject.json"));
+var BCProject = contract(require("../../bcproject/build/contracts/BCProject.json"));
 require("bootstrap");
 
 var account; // the account used for executing contract methods
@@ -25,7 +25,7 @@ window.Dapp = {
   },
 
   setPercentEventWatcher: function() {
-    TNOProject.deployed().then(function(instance) {
+    BCProject.deployed().then(function(instance) {
       percentEventWatcher = instance.PercentUpdated();
       percentEventWatcher.watch(function(error, result){
         // result contains various information including the argumets given to the PercentUpdated
@@ -45,7 +45,7 @@ window.Dapp = {
       });
 
       // Or pass anonymous callback function to start watching immediately
-      //var percentEventWatcher = TNOProject.PercentUpdated(function(error, result) {
+      //var percentEventWatcher = BCProject.PercentUpdated(function(error, result) {
       //    if (!error)
       //        console.log(result);
       //});
@@ -64,7 +64,7 @@ window.addEventListener("load", function() {
     //window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8700"));
   }
-  TNOProject.setProvider(web3.currentProvider);
+  BCProject.setProvider(web3.currentProvider);
 
   web3.eth.getAccounts(function(err, accounts) {
     if (err) {
