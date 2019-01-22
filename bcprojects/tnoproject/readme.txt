@@ -30,7 +30,7 @@ https://stackoverflow.com/questions/42924634/unable-to-run-truffle2-1-2-migrate-
 Add to truffle.js
       gas: 3000000, // use web3.eth.getBlock("pending").gasLimit >>4712388
 
-for tnoprojectEvents, copy the build from tnoproject
+for bcprojectEvents, copy the build from bcproject
 
 Available Accounts
 ==================
