@@ -1,20 +1,20 @@
-var TNOProject = artifacts.require("./TNOProject.sol");
+var Project = artifacts.require("./BCProject.sol");
 
 // Print the deployed version of our contract.
 // Note that getting the deployed version requires a promise, hence the .then.
 /*
-TNOProject.deployed().then(function(instance) {
+Project.deployed().then(function(instance) {
   console.log(instance);
 });
 */
 
-contract('TNOProject', function(accounts) {
+contract('BCProject', function(accounts) {
 
   it("Project Description must equal to deployed", function() {
     var project;
     var projectDescription;
 
-    return TNOProject.deployed().then(function(instance) {
+    return Project.deployed().then(function(instance) {
       project = instance;
       return project.getProjectDescription.call(); // call() is used for reads, no transaction gas required, result is returned immediately
     }).then(function(outDescription) {
@@ -29,7 +29,7 @@ contract('TNOProject', function(accounts) {
     var taskDescription;
 	var numberOfTasks;
 	
-    return TNOProject.deployed().then(function(instance) {
+    return Project.deployed().then(function(instance) {
       project = instance;
       return project.createTask("T1", "Task 1"); // gas required, result is not returned immediately, transaction id is returned instead
     }).then(function() {
@@ -54,7 +54,7 @@ contract('TNOProject', function(accounts) {
     var delDescription;
 	var numberOfTasks;
 	
-    return TNOProject.deployed().then(function(instance) {
+    return Project.deployed().then(function(instance) {
       project = instance;
       return project.createDeliverable("T1", "T1D1", "Deliverable 1", {from: accounts[0]}); // gas required, result is not returned immediately, transaction id is returned instead
 /*
@@ -77,7 +77,7 @@ contract('TNOProject', function(accounts) {
     var project;
     var delDescription;
 
-    return TNOProject.deployed().then(function(instance) {
+    return Project.deployed().then(function(instance) {
       project = instance;
       return project.getDeliverableDescription.call("T1", "T1D1"); // call() is used for reads, no transaction gas required, result is returned immediately
     }).then(function(outDescription) {
@@ -90,7 +90,7 @@ contract('TNOProject', function(accounts) {
   it("Deliverables Percent is updated", function() {
     var project;
 
-    return TNOProject.deployed().then(function(instance) {
+    return Project.deployed().then(function(instance) {
       project = instance;
       return project.setDeliverablePercent("T1", "T1D1", 2);
     }).then(function(result) {
@@ -106,7 +106,7 @@ contract('TNOProject', function(accounts) {
     var project;
     var delDescription;
 
-    return TNOProject.deployed().then(function(instance) {
+    return Project.deployed().then(function(instance) {
       project = instance;
       return project.getDeliverableDescription.call("T1", "T1D1"); // call() is used for reads, no transaction gas required, result is returned immediately
     }).then(function(outDescription) {
