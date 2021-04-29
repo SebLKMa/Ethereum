@@ -12,7 +12,7 @@
   "devDependencies": {
     "bootstrap": "^3.3.7",
     "eth-ens-namehash": "^2.0.0",
-    "jquery": "^3.2.1",
+    "jquery": "^3.5.0",
     "json-loader": "^0.5.7",
     "truffle-contract": "^2.0.5",
     "web3": "^0.20.2",
